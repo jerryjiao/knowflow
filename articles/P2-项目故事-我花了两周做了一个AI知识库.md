@@ -32,6 +32,8 @@ OpenText 报告说 80% 知识工作者经历信息过载。我至少占 80.1%。
 
 这太扯了。受够了这种"伪效率"。工具一大堆效率没涨。焦虑倒是涨了不少。
 
+![我的知识管理工具进化史](p2-workspace.png)
+
 ## KnowFlow 的诞生
 
 后来看到 Andrej Karpathy 的 LLM Wiki 想法。Karpathy——前 Tesla AI 总监 OpenAI 联合创始人——提出跟 RAG 完全不同的思路：**别每次查询去原始文档翻先把知识编译好放在那用的时候直接拿。**
