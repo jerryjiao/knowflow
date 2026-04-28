@@ -1,0 +1,33 @@
+# Dependencies
+node_modules/
+
+# Environment & Secrets
+.env
+*.env.local
+
+# Runtime data
+raw/
+wiki/
+graph/
+vector-store.mjs-data/
+
+# State files (personal)
+.bookmark-state.json
+.ingest-state.json
+.wechat-state.json
+memories.json
+scripts/.wechat-accounts.json
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Logs
+*.log
+npm-debug.log*
