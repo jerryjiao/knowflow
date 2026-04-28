@@ -105,5 +105,5 @@ KnowFlow 本地优先 CLI 吸引开发者——不介意配置能自己改代码
 ---
 
 *KnowFlow 系列收尾篇感谢阅读*
-*代码 github.com/yourname/knowflow 或搜索 KnowFlow*
+*代码 [github.com/jerryjiao/knowflow](https://github.com/jerryjiao/knowflow) 或 `npx knowflow`*
 *欢迎 issue 或 Twitter @我讨论*
