@@ -15,7 +15,7 @@ KnowFlow 的 `ingest.sh` 会**自动识别来源类型**，然后选择最合适
 - **普通网页** → Jina Reader（免费网页转 Markdown API）
 - **Twitter/X** → Jina Reader 或 twitter CLI
 - **微信公众号** → 专用提取逻辑
-- **小红书** → Jina Reader + agent-browser 降级（JS 渲染页面）
+- **小红书** → Jina Reader 优先（失败则保存原始链接），agent-browser 可选降级（需 JS 渲染）
 - **YouTube** → 元数据提取
 - **纯文本** → 直接保存
 
@@ -27,7 +27,7 @@ KnowFlow 的 `ingest.sh` 会**自动识别来源类型**，然后选择最合适
 
 ### 踩坑：小红书需要浏览器渲染
 
-Jina Reader 对大部分网站有效，但小红书不行——内容是 JS 动态加载的。目前的方案：Jina 失败后自动降级保存原始链接 + 提示用户。后续计划接入浏览器渲染。
+Jina Reader 对大部分网站有效，但小红书不行——内容是 JS 动态加载的。目前的方案：Jina 失败后自动保存原始链接 + 提示用户。如果安装了 agent-browser，可以后续接入浏览器渲染提取完整内容。
 
 ## Step 2: AI 提取 (Extract)
 
