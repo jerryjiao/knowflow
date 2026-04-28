@@ -211,16 +211,16 @@ if should_run 3; then
     _TEMP_FILES+=("$TMPINGEST")
 
     if $DRY_RUN; then
-      echo "[DRY RUN] Would run batch-ingest.js for $NEW_FILES_COUNT new file(s)"
+      echo "[DRY RUN] Would run batch-ingest.cjs for $NEW_FILES_COUNT new file(s)"
       echo "1" >> "$TMPINGEST"
     else
       # Batch ingest: process all new raw files at once (dedup + cluster + wiki pages)
-      if [ -f "$SCRIPT_DIR/batch-ingest.js" ]; then
-        echo "  📦 Running batch-ingest.js ($NEW_FILES_COUNT new files)..."
-        if node "$SCRIPT_DIR/batch-ingest.js" 2>&1; then
+      if [ -f "$SCRIPT_DIR/batch-ingest.cjs" ]; then
+        echo "  📦 Running batch-ingest.cjs ($NEW_FILES_COUNT new files)..."
+        if node "$SCRIPT_DIR/batch-ingest.cjs" 2>&1; then
           echo "1" >> "$TMPINGEST"
         else
-          echo "  ⚠️ batch-ingest.js failed"
+          echo "  ⚠️ batch-ingest.cjs failed"
         fi
       elif [ -f "$SCRIPT_DIR/ingest.sh" ]; then
         # Fallback: iterate each file with ingest.sh
