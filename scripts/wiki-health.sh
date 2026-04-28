@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/opt/homebrew/bin/bash
 # knowflow health check — broken links, empty files, orphan pages
 # Usage: bash scripts/wiki-health.sh [--wiki-root <path>] [--json]
 #

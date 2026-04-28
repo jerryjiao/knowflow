@@ -323,7 +323,7 @@ if should_run 5; then
   else
     if [ -f "$SCRIPT_DIR/wiki-health.sh" ]; then
       set +e
-      timeout 30 bash "$SCRIPT_DIR/wiki-health.sh" 2>&1
+      bash "$SCRIPT_DIR/wiki-health.sh" 2>&1
       HEALTH_EXIT=$?
       set -e
 
