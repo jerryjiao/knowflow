@@ -7,7 +7,7 @@ generates interactive graph.html (self-contained, no server needed).
 M2 改进:
   - 支持增量更新（--incremental 模式，检查已有数据避免全量重建）
   - 输出详细节点统计信息到控制台
-  - 确保 D3 HTML 文件中的中文显示正常（UTF-8 BOM + 显式 charset）
+  - 确保 vis.js HTML 文件中的中文显示正常（UTF-8 BOM + 显式 charset）
   - 同时输出 knowledge-graph.json 供外部工具消费
 
 Usage:
