@@ -69,6 +69,5 @@ HEALTH_SCORE="UNKNOWN"
 NEW_FILES_COUNT=0
 
 if [ "${HEALTH_EXIT:-0}" -ne 0 ] && ! ${DRY_RUN:-false}; then
-  exit 1 && ! ${DRY_RUN:-false}; then
   exit 1
 fi
