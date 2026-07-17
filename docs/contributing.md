@@ -1,5 +1,7 @@
 # KnowFlow 贡献指南
 
+[English contribution guide](../CONTRIBUTING.md) | 简体中文
+
 > 欢迎贡献！无论是代码、文档、Wiki 模板还是博客文章。
 
 ## 给人类贡献者的指南
@@ -46,7 +48,7 @@ KnowFlow 是一个 **知识编译器**，不是搜索工具。核心价值链：
 | 理解整体架构 | `docs/architecture/system-architecture.md` |
 | 理解方法论 | `docs/methodology/llm-wiki-methodology.md` |
 | 理解数据模型 | `docs/reference/data-model.md` |
-| 修改提取逻辑 | `scripts/batch-ingest.js`（LLM prompt 在这里） |
+| 修改提取逻辑 | `scripts/batch-ingest.cjs` |
 | 修改模板 | `templates/*.md` |
 | 修改 CLI 命令 | `bin/knowflow.js` |
 | 修改图谱构建 | `scripts/graph_builder.py` |
@@ -66,7 +68,7 @@ fi
 
 #### 2. 改进提取 Prompt
 
-在 `batch-ingest.js` 中找到 JSON Schema 定义，调整字段。注意保持向后兼容——新增字段可以，删除/重命名字段要处理旧数据。
+在 `batch-ingest.cjs` 中调整提取逻辑时，注意保持现有 Markdown 数据的向后兼容。
 
 #### 3. 新增 Wiki 模板
 
@@ -79,12 +81,15 @@ fi
 ### 测试你的改动
 
 ```bash
-# 单 URL 测试
+# 单 URL 原始采集测试（只写入 raw，不生成 Wiki 页面）
 knowflow ingest https://example.com/test-article
 
 # 检查输出
-ls wiki/          # Wiki 页面是否生成？
-cat graph.json    # 图谱是否更新？
+ls raw/web/       # 原始素材是否生成？
+
+# 手动或通过 Agent 整理 Wiki 页面后再生成图谱
+knowflow graph --no-open
+cat graph/graph.json
 
 # 健康检查
 knowflow health

@@ -6,8 +6,9 @@
 const fs = require('fs');
 const path = require('path');
 
-const RAW_DIR = path.join(__dirname, '..', 'raw', 'web');
-const WIKI_DIR = path.join(__dirname, '..', 'wiki');
+const PROJECT_ROOT = path.resolve(process.env.KNOWFLOW_ROOT || path.join(__dirname, '..'));
+const RAW_DIR = path.join(path.resolve(process.env.KNOWFLOW_RAW_DIR || path.join(PROJECT_ROOT, 'raw')), 'web');
+const WIKI_DIR = path.resolve(process.env.KNOWFLOW_WIKI_DIR || path.join(PROJECT_ROOT, 'wiki'));
 const SOURCES_DIR = path.join(WIKI_DIR, 'sources');
 const ENTITIES_DIR = path.join(WIKI_DIR, 'entities');
 const CONCEPTS_DIR = path.join(WIKI_DIR, 'concepts');

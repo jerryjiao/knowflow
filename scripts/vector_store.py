@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Jerry Wiki Vector Store — 基于智谱 embedding-3 的语义检索
+KnowFlow Vector Store — 基于智谱 embedding-3 的语义检索
 用法:
   python3 vector_store.py build    # 对所有 wiki 页面建索引
   python3 vector_store.py query "AI Agent"  # 语义查询
@@ -9,7 +9,8 @@ Jerry Wiki Vector Store — 基于智谱 embedding-3 的语义检索
 import os, sys, json, glob, hashlib
 from pathlib import Path
 
-WIKI_DIR = Path(__file__).parent.parent / "wiki"
+PROJECT_ROOT = Path(os.environ.get("KNOWFLOW_ROOT", Path(__file__).resolve().parent.parent))
+WIKI_DIR = Path(os.environ.get("KNOWFLOW_WIKI_DIR", PROJECT_ROOT / "wiki")).resolve()
 INDEX_FILE = WIKI_DIR / ".vector-index.json"
 EMBED_CACHE = WIKI_DIR / ".embed-cache.json"
 

@@ -17,7 +17,7 @@
 ┌─────────────────────────────────────────────────────────────┐
 │                  Step 2: Extract (提取)                      │
 │  LLM 分析内容 → 提取实体/概念/关系 → JSON Schema 约束输出    │
-│  scripts/batch-ingest.js → extractor 模块                   │
+│  scripts/batch-ingest.cjs → extractor 模块                  │
 └──────────────────────┬──────────────────────────────────────┘
                        ▼
 ┌─────────────────────────────────────────────────────────────┐
@@ -45,8 +45,8 @@ knowflow/
 ├── bin/
 │   └── knowflow.js          # CLI 入口，命令路由
 ├── scripts/
-│   ├── ingest.sh            # 单条 URL 完整管线（fetch→extract→compile）
-│   ├── batch-ingest.js      # 批量处理（检测新文件 + 并行 ingest）
+│   ├── ingest.sh            # 单条 URL/文本采集（fetch→raw）
+│   ├── batch-ingest.cjs     # 批量处理原始素材
 │   ├── enrich-wiki.js       # Wiki 后处理（链接补全、摘要生成）
 │   ├── graph_builder.py     # 从 Wiki 页面构建知识图谱
 │   ├── graph_relation_labeler.py  # LLM 分析关系类型

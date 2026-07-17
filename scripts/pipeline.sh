@@ -22,10 +22,10 @@ trap cleanup EXIT INT TERM
 
 # ── Config ──────────────────────────────────────────────
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-WIKI_ROOT="${WIKI_ROOT:-$(cd "$SCRIPT_DIR/.." && pwd)}"
+WIKI_ROOT="${KNOWFLOW_ROOT:-${WIKI_ROOT:-$(cd "$SCRIPT_DIR/.." && pwd)}}"
 STATE_FILE="$WIKI_ROOT/.ingest-state.json"
-RAW_DIR="$WIKI_ROOT/raw"
-WIKI_DIR="$WIKI_ROOT/wiki"
+RAW_DIR="${KNOWFLOW_RAW_DIR:-$WIKI_ROOT/raw}"
+WIKI_DIR="${KNOWFLOW_WIKI_DIR:-$WIKI_ROOT/wiki}"
 LOCK_FILE="$WIKI_ROOT/.pipeline.lock"
 TIMESTAMP=$(date +%Y-%m-%d-%H%M)
 

@@ -16,21 +16,21 @@ set -euo pipefail
 
 # ── Config ──────────────────────────────────────────────
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-WIKI_ROOT="${WIKI_ROOT:-$(cd "$SCRIPT_DIR/.." && pwd)}"
+WIKI_ROOT="${KNOWFLOW_ROOT:-${WIKI_ROOT:-$(cd "$SCRIPT_DIR/.." && pwd)}}"
+WIKI_DIR="${KNOWFLOW_WIKI_DIR:-$WIKI_ROOT/wiki}"
 MIN_SIZE=100
 OUTPUT_FORMAT="text"  # text | json
 
 # Parse arguments
 while [[ $# -gt 0 ]]; do
   case "$1" in
-    --wiki-root) WIKI_ROOT="$2"; shift 2 ;;
+    --wiki-root) WIKI_ROOT="$2"; WIKI_DIR="$2/wiki"; shift 2 ;;
+    --wiki-dir) WIKI_DIR="$2"; shift 2 ;;
     --json) OUTPUT_FORMAT="json"; shift ;;
     --min-size) MIN_SIZE="$2"; shift 2 ;;
     *) echo "Unknown option: $1" >&2; exit 1 ;;
   esac
 done
-
-WIKI_DIR="$WIKI_ROOT/wiki"
 
 if [ ! -d "$WIKI_DIR" ]; then
   if [ "$OUTPUT_FORMAT" = "json" ]; then
@@ -272,7 +272,7 @@ EOF
 
 else
   # ── Text mode (default, backward compatible) ──
-  echo "🏥 Jerry's LLM Wiki — Health Check"
+  echo "🏥 KnowFlow Wiki — Health Check"
   echo "====================================="
   echo "Wiki root: $WIKI_DIR"
   echo "Time: $TIMESTAMP"

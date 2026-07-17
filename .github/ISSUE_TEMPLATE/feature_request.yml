@@ -1,0 +1,47 @@
+name: Feature request
+description: Propose a focused improvement or workflow use case
+title: "[Feature]: "
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem or use case
+      description: What are you trying to accomplish, and who has this problem?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed behavior
+      description: Describe the smallest useful outcome, including an example command or workflow when possible.
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Capture / source adapters
+        - Agent workflow / Wiki synthesis
+        - Knowledge graph
+        - Search / indexing
+        - Health checks
+        - CLI / configuration
+        - Documentation / examples
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: How are you solving this today, if at all?
+  - type: checkboxes
+    id: scope
+    attributes:
+      label: Scope check
+      options:
+        - label: This request keeps raw capture distinct from reviewed Wiki synthesis, or explains why that boundary should change.
+          required: true
+        - label: I searched existing issues and roadmap items.
+          required: true

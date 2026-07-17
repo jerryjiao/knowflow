@@ -5,8 +5,9 @@
 
 set -euo pipefail
 
-WIKI_ROOT="$HOME/Documents/openclaw/workspace/knowflow"
-RAW_DIR="$WIKI_ROOT/raw"
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+WIKI_ROOT="${KNOWFLOW_ROOT:-$(cd "$SCRIPT_DIR/.." && pwd)}"
+RAW_DIR="${KNOWFLOW_RAW_DIR:-$WIKI_ROOT/raw}"
 TIMESTAMP=$(date +%Y-%m-%d-%H%M)
 
 URL="${1:-}"
@@ -40,18 +41,17 @@ detect_source() {
 # ── URL Sanitization ─────────────────────────────────────
 validate_url() {
   local url="$1"
-  # Must be http(s)://, no spaces, no shell metacharacters
+  # Arguments are passed without a shell; keep normal query strings intact.
   if ! echo "$url" | grep -qE '^https?://[^[:space:]]+$'; then
     echo "❌ Invalid URL: $url" >&2
     return 1
   fi
-  # Block obvious injection patterns
-  if echo "$url" | grep -qE '[;|&`$\\\x00-\x1f]'; then
-    echo "❌ Unsafe URL characters detected" >&2
-    return 1
-  fi
 }
-validate_url "$URL" || exit 1
+if [ "$SOURCE_TYPE" != "text" ]; then
+  validate_url "$URL" || exit 1
+fi
+
+mkdir -p "$RAW_DIR"/{twitter,xiaohongshu,wechat,web}
 
 OUTPUT_FILE=""
 EXTRACT_METHOD=""

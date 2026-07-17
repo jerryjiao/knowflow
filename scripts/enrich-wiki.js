@@ -9,8 +9,11 @@
  *   - 输出格式一致（JSON Schema 思路：结构化结果对象）
  *   - 核心逻辑不变，只加健壮性
  */
-const fs = require('fs');
-const path = require('path');
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 // ── Timestamp logger ──────────────────────────────────
 function log(msg) {
@@ -19,8 +22,9 @@ function log(msg) {
 }
 
 // ── Paths ──────────────────────────────────────────────
-const RAW_DIR = path.join(__dirname, '..', 'raw', 'web');
-const WIKI_DIR = path.join(__dirname, '..', 'wiki');
+const PROJECT_ROOT = path.resolve(process.env.KNOWFLOW_ROOT || path.join(__dirname, '..'));
+const RAW_DIR = path.join(path.resolve(process.env.KNOWFLOW_RAW_DIR || path.join(PROJECT_ROOT, 'raw')), 'web');
+const WIKI_DIR = path.resolve(process.env.KNOWFLOW_WIKI_DIR || path.join(PROJECT_ROOT, 'wiki'));
 const ENTITIES_DIR = path.join(WIKI_DIR, 'entities');
 const CONCEPTS_DIR = path.join(WIKI_DIR, 'concepts');
 
@@ -38,23 +42,23 @@ const result = {
 // Read existing entity and concept pages
 function loadDir(dir) {
   try {
-    const result = {};
+    const pages = {};
     if (!fs.existsSync(dir)) {
       log(`⚠️  目录不存在，将创建: ${dir}`);
       fs.mkdirSync(dir, { recursive: true });
-      return result;
+      return pages;
     }
     for (const f of fs.readdirSync(dir)) {
       if (f.endsWith('.md')) {
         try {
-          result[f] = fs.readFileSync(path.join(dir, f), 'utf-8');
+          pages[f] = fs.readFileSync(path.join(dir, f), 'utf-8');
         } catch (e) {
           log(`⚠️  读取失败 ${dir}/${f}: ${e.message}`);
           result.warnings.push({ file: `${dir}/${f}`, error: e.message });
         }
       }
     }
-    return result;
+    return pages;
   } catch (e) {
     log(`❌ 加载目录失败 ${dir}: ${e.message}`);
     result.errors.push({ step: 'loadDir', dir, error: e.message });
@@ -602,7 +606,7 @@ const CONCEPT_DEFINITIONS = {
 
 let enrichedConcepts = 0;
 try {
-  for (const [filename, def of Object.entries(CONCEPT_DEFINITIONS)) {
+  for (const [filename, def] of Object.entries(CONCEPT_DEFINITIONS)) {
     try {
       if (!conceptPages[filename]) {
         const lines = [

@@ -1,1 +1,56 @@
-{"name": "knowflow", "version": "0.1.0", "description": "AI-powered knowledge flow system — turn URLs into structured wikis with knowledge graphs", "type": "module", "bin": {"knowflow": "./bin/knowflow.js"}, "scripts": {"knowflow": "node bin/knowflow.js"}, "dependencies": {"chalk": "^5.3.0", "commander": "^12.1.0"}, "engines": {"node": ">=18"}, "keywords": ["ai", "knowledge-base", "wiki", "llm", "rag", "cli"], "license": "MIT"}
+{
+  "name": "knowflow",
+  "version": "0.2.0",
+  "description": "Agent-native Markdown workspace for raw capture, linked wikis, knowledge graphs, and semantic search",
+  "type": "module",
+  "bin": {
+    "knowflow": "./bin/knowflow.js"
+  },
+  "files": [
+    "bin/",
+    "scripts/",
+    "templates/",
+    "docs/",
+    "examples/",
+    "README.md",
+    "README.zh-CN.md",
+    "CONTRIBUTING.md",
+    "SECURITY.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "knowflow": "node bin/knowflow.js",
+    "test": "node --test",
+    "check": "node --check bin/knowflow.js && node --check scripts/batch-ingest.cjs && node --check scripts/enrich-wiki.js && node --check scripts/vector-store.mjs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jerryjiao/knowflow.git"
+  },
+  "homepage": "https://github.com/jerryjiao/knowflow#readme",
+  "bugs": {
+    "url": "https://github.com/jerryjiao/knowflow/issues"
+  },
+  "dependencies": {
+    "chalk": "^5.3.0",
+    "commander": "^12.1.0"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": [
+    "ai",
+    "knowledge-base",
+    "knowledge-graph",
+    "knowledge-management",
+    "personal-knowledge-management",
+    "markdown",
+    "ai-agent",
+    "wiki",
+    "llm",
+    "rag",
+    "cli"
+  ],
+  "license": "MIT"
+}

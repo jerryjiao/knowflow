@@ -1,116 +1,166 @@
-# KnowFlow 🧠
+# KnowFlow
 
-> **AI 驱动的知识 Wiki 系统** — 将 URL、推文、PDF、书签等转化为互联 Wiki，支持知识图谱与向量检索。
+[English](README.md) | [简体中文](README.zh-CN.md)
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[npm](https://www.npmjs.com/package/knowflow)
+[![CI](https://github.com/jerryjiao/knowflow/actions/workflows/ci.yml/badge.svg)](https://github.com/jerryjiao/knowflow/actions/workflows/ci.yml)
+[![Node.js 18+](https://img.shields.io/badge/Node.js-18%2B-339933?logo=node.js&logoColor=white)](https://nodejs.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-## ✨ KnowFlow 是什么？
+![KnowFlow — an agent-native Markdown knowledge workspace](docs/assets/knowflow-social-preview.png)
 
-KnowFlow 是一个个人知识管理系统，灵感来自 [Andrej Karpathy 的 LLM Wiki 想法](https://karpathy.github.io/llm-wiki/)。它能自动完成：
+> An agent-native Markdown knowledge workspace for capturing sources, organizing linked wiki pages, and exploring what you know.
 
-1. **收录（Ingest）** — 从 URL、推文、PDF 等来源采集内容
-2. **提取（Extract）** — 利用 LLM 提取实体、概念和关联关系
-3. **生成（Generate）** — 自动生成互相链接的 Wiki 页面
-4. **建图（Graph）** — 构建知识图谱可视化
-5. **索引（Index）** — 全量构建向量索引，支持语义搜索
+KnowFlow keeps the workflow inspectable: URLs and notes land in `raw/`, you or an AI agent turn them into structured Markdown pages, and local tools build a knowledge graph, check wiki health, and report project status. Optional semantic search is available when you configure an embedding API key.
 
-全程使用开源 LLM 驱动——无需 OpenAI API Key。
+- **Own the knowledge layer** — plain Markdown, editable templates, and `[[wikilinks]]` instead of a closed database.
+- **Work with any agent** — keep capture deterministic, then use the agent or workflow you trust for synthesis.
+- **See structure, not just search results** — generate an interactive graph and catch broken or isolated pages.
 
-## 🚀 快速开始
+> **Demo:** [Run the text-to-graph walkthrough](examples/quickstart.md), then explore the generated graph in your browser.
+
+![KnowFlow interactive knowledge graph](docs/assets/knowflow-graph-demo.png)
+
+## Quick start
+
+Requires Node.js 18+, Python 3.10+, Bash, and curl.
 
 ```bash
-# 安装（需要 Node.js 18+）
 npx knowflow@latest init my-wiki
-
-# 收录一个 URL
 cd my-wiki
-npx knowflow ingest https://karpathy.github.io/llm-wiki/
-
-# 提问查询
-npx knowflow query "RAG 和 LLM Wiki 有什么区别？"
+npx knowflow ingest "LLM Wikis turn notes into linked knowledge." --source text
+npx knowflow status
+npx knowflow graph --no-open
 ```
 
-### 前置要求
+This creates a standalone project, captures one note in `raw/`, and builds a graph from the starter Wiki. **`ingest` does not automatically generate structured Wiki pages.** Organize captured material manually or with an AI agent/workflow before rebuilding the graph.
 
-- **Node.js** >= 18
-- **Python** >= 3.10（用于知识图谱和向量存储）
-- 智谱 AI API Key（[免费额度可用](https://open.bigmodel.cn/)）
+If v0.2.0 is not yet available on npm, [install the current source checkout](#install-from-source).
 
-## 📖 架构设计
+## The workflow
 
-```
-┌─────────────┐    ┌─────────────┐    ┌──────────────┐
-│   原始层     │───▶│   Wiki 层    │───▶│  规则层       │
-│ (URL/PDF/   │    │ (实体/概念/  │    │ (提取规则)    │
-│  推文)      │    │  对比页)    │    │               │
-└─────────────┘    └──────┬───────┘    └───────────────┘
-                          │
-              ┌───────────┼───────────┐
-              ▼           ▼           ▼
-       ┌──────────┐ ┌──────────┐ ┌──────────┐
-       │ 知识图谱  │ │ 向量索引  │ │ 图谱可视化│
-       └──────────┘ └──────────┘ └──────────┘
+```text
+URL or note
+    │
+    ▼
+raw/ Markdown ──► you, an AI agent, or a custom workflow
+                         │
+                         ▼
+                 linked Wiki pages
+                    │         │
+                    ▼         ▼
+             knowledge graph  optional semantic search
 ```
 
-## 📁 项目结构
+KnowFlow is inspired by [Andrej Karpathy's LLM Wiki](https://karpathy.github.io/llm-wiki/): knowledge becomes more useful when it is curated into durable, connected pages instead of being left in a pile of saved links.
 
-```
-knowflow/
-├── bin/knowflow.js          # CLI 主入口
-├── scripts/
-│   ├── ingest.sh            # 单条 URL 收录流水线
-│   ├── batch-ingest.js      # 批量处理
-│   ├── graph_builder.py     # 知识图谱构建
-│   ├── vector-store.mjs     # 向量搜索索引
-│   ├── pipeline.sh          # 全自动流水线
-│   └── bookmark_sync.sh     # X/Twitter 书签同步
-├── templates/               # Wiki 页面模板
-│   ├── entity.md            # 实体页（人物、项目）
-│   ├── concept.md           # 概念页（RAG、Embedding 等）
-│   ├── comparison.md        # 对比页（A vs B）
-│   └── source.md            # 来源参考页
-├── docs/                    # 文档
-├── articles/                # 公众号系列文章
-└── package.json
-```
+## What is included
 
-## 🔧 配置说明
+- Capture plain text and supported URLs as raw Markdown.
+- Initialize portable projects with JSON configuration and editable page templates.
+- Organize source, entity, concept, and comparison pages with `[[wikilinks]]`.
+- Generate `graph.html` and `graph.json` without an API key.
+- Check broken links, undersized files, and isolated pages.
+- Query a previously built vector index with optional Zhipu AI embeddings.
 
-将 `.knowflowrc.example` 复制为 `.knowflowrc` 并按需配置：
+## Commands
 
-```yaml
-llm:
-  provider: "zhipuai"        # LLM 提供商（zhipuai / openai）
-  model: "glm-4-flash"       # 用于提取的模型
+| Command | What it does |
+| --- | --- |
+| `knowflow init [directory]` | Create a standalone project; defaults to the current directory |
+| `knowflow ingest <url-or-text>` | Capture a URL or text in `raw/` |
+| `knowflow graph [--no-open]` | Generate `graph.html` and `graph.json` from Wiki pages |
+| `knowflow health` | Check broken links, small files, and isolated pages |
+| `knowflow status` | Show raw, Wiki, graph, vector-index, and API-key status |
+| `knowflow query <text>` | Query an existing vector index |
 
-wiki:
-  root: ./wiki               # Wiki 页面输出目录
-  raw_dir: ./raw             # 原始内容存储目录
+KnowFlow searches upward from the current directory for the nearest `.knowflowrc`, so commands also work inside project subdirectories.
 
-graph:
-  output: ./graph/graph.html # 知识图谱可视化输出路径
+## Install from source
+
+```bash
+git clone https://github.com/jerryjiao/knowflow.git
+cd knowflow
+npm install
+npm link
+knowflow init ../my-wiki
 ```
 
-## 📚 系列文章
+Running `init` again preserves existing configuration, the starter index, and customized templates.
 
-`articles/` 目录包含一套 6 篇 KnowFlow 公众号系列文章：
+## Project layout
 
-1. **[P1] 概念篇** — 为什么我们需要 LLM Wiki（`articles/P1-概念篇-你的收藏夹从未被打开过.md`）
-2. **[P2] 项目故事** — 两周做一个 AI 知识库的经历（`articles/P2-项目故事-我花了两周做了一个AI知识库.md`）
-3. **[P3] 教程上]** — 从 URL 到 Wiki 第一步（`articles/P3-教程上-从URL到知识库第一步怎么做.md`）
-4. **[P4] 教程下]** — 知识图谱与向量检索（`articles/P4-教程下-知识图谱与向量检索.md`）
-5. **[P5] 开源指南** — 3 分钟上手 + 10 个踩坑（`articles/P5-开源指南-3分钟上手与10个踩坑.md`）
-6. **[P6] 展望篇** — 对 AI 知识管理的思考（`articles/P6-展望篇-做完之后对AI知识管理的思考.md`）
+```text
+my-wiki/
+├── .knowflowrc
+├── raw/                 # captured source material
+├── wiki/
+│   ├── index.md
+│   ├── sources/
+│   ├── entities/
+│   ├── concepts/
+│   └── comparisons/
+├── graph/               # generated graph.html and graph.json
+└── templates/           # editable Markdown templates
+```
 
-## 🤝 参与贡献
+## Configuration
 
-欢迎提交 PR！详见 [articles/](./articles/) 了解项目目标与设计决策。
+`knowflow init` writes a JSON `.knowflowrc`. Relative paths resolve from the directory containing that file.
 
-## 📄 开源协议
+```json
+{
+  "wiki": {
+    "root": "./wiki",
+    "rawDir": "./raw"
+  },
+  "graph": {
+    "output": "./graph/graph.html"
+  },
+  "health": {
+    "minFileSize": 100
+  }
+}
+```
 
-MIT © [Jerry Jiao](https://github.com/jerryjiao)
+Graph generation, health checks, capture, and status do not require an API key. Semantic search requires `ZHIPUAI_API_KEY` in the project environment or a project-root `.env` file:
 
----
+```bash
+ZHIPUAI_API_KEY=your-key-here
+```
 
-> 💡 **灵感来源** [Karpathy's LLM Wiki Gist](https://karpathy.github.io/llm-wiki/) —— 知识应该被**编译**，而不仅仅是**存储**。
+The current CLI can query an existing vector index but does not yet expose a standalone `index` command. See [Current limitations](#current-limitations) before relying on search.
+
+## Current limitations
+
+- `ingest` captures raw material; structured Wiki synthesis is a separate human or agent step.
+- URL capture uses Jina Reader. YouTube and some logged-in platforms may also require `yt-dlp` or an authenticated browser workflow.
+- `query` needs a prebuilt vector index and a [Zhipu AI API key](https://open.bigmodel.cn/). Until an `index` CLI command is added, advanced users can run `node <knowflow-install>/scripts/vector-store.mjs build`.
+- `bookmark_sync.sh` depends on the optional third-party `ft` command.
+- Generated graph HTML loads vis-network from a CDN when opened.
+
+## Roadmap
+
+- [x] Standalone project initialization and portable paths
+- [x] Raw URL/text capture, Wiki health checks, and interactive graphs
+- [x] CLI tests and CI across supported Node.js versions
+- [ ] A first-class agent workflow from raw capture to reviewed Wiki pages
+- [ ] Incremental ingestion and duplicate-source detection
+- [ ] `knowflow index` and pluggable embedding providers
+- [ ] Extractor/plugin system and a local Web UI
+
+Ideas and focused pull requests are welcome. Start with the [contribution guide](CONTRIBUTING.md), run the [text-to-graph example](examples/quickstart.md), or propose a use case in [GitHub Issues](https://github.com/jerryjiao/knowflow/issues).
+
+## Development
+
+```bash
+npm install
+npm run check
+npm test
+npm pack --dry-run
+```
+
+See the [changelog](CHANGELOG.md) for release notes and the [security policy](SECURITY.md) for responsible disclosure.
+
+## License
+
+[MIT](LICENSE) © [Jerry Jiao](https://github.com/jerryjiao)

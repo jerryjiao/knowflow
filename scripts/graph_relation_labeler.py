@@ -4,12 +4,15 @@ KnowFlow Graph Relation Labeler
 Infers semantic relation types from wikilink context and updates graph.json
 """
 
+import argparse
 import re, json, os
 from pathlib import Path
 from collections import defaultdict
 
-WIKI_DIR = os.path.expanduser("~/Documents/openclaw/workspace/knowflow/wiki")
-GRAPH_JSON = os.path.join(os.path.dirname(WIKI_DIR), "graph", "graph.json")
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+DEFAULT_WIKI_DIR = os.environ.get("KNOWFLOW_WIKI_DIR", str(PROJECT_ROOT / "wiki"))
+DEFAULT_GRAPH_OUTPUT = Path(os.environ.get("KNOWFLOW_GRAPH_OUTPUT", PROJECT_ROOT / "graph" / "graph.html"))
+DEFAULT_GRAPH_JSON = os.environ.get("KNOWFLOW_GRAPH_JSON", str(DEFAULT_GRAPH_OUTPUT.with_suffix(".json")))
 
 # ── Relation inference rules ──────────────────────────────
 
@@ -91,14 +94,21 @@ def infer_relation(from_path, to_path, from_content, all_categories):
 
 
 def main():
+    parser = argparse.ArgumentParser(description="Add semantic labels to a KnowFlow graph")
+    parser.add_argument("--wiki-dir", default=DEFAULT_WIKI_DIR, help="Wiki directory")
+    parser.add_argument("--graph-json", default=DEFAULT_GRAPH_JSON, help="Graph JSON file")
+    args = parser.parse_args()
+    wiki_dir = Path(args.wiki_dir).resolve()
+    graph_json = Path(args.graph_json).resolve()
+
     print("🏷️  开始为图谱边添加关系标签...")
     
     # Load existing graph
-    with open(GRAPH_JSON, 'r', encoding='utf-8') as f:
+    with graph_json.open('r', encoding='utf-8') as f:
         graph = json.load(f)
     
     # Read all wiki contents for context analysis
-    wiki_path = Path(WIKI_DIR)
+    wiki_path = wiki_dir
     contents = {}
     for md_file in wiki_path.rglob('*.md'):
         rel = str(md_file.relative_to(wiki_path))
@@ -144,7 +154,7 @@ def main():
             node['category_label'] = cat_labels[cat]
     
     # Save updated graph
-    with open(GRAPH_JSON, 'w', encoding='utf-8') as f:
+    with graph_json.open('w', encoding='utf-8') as f:
         json.dump(graph, f, ensure_ascii=False, indent=2)
     
     print(f"✅ 完成！更新了 {updated} 条边的关系标签")

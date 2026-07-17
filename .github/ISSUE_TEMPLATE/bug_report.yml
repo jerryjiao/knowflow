@@ -1,0 +1,65 @@
+name: Bug report
+description: Report reproducible behavior that does not work as documented
+title: "[Bug]: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping improve KnowFlow. Remove secrets and private captured content before submitting.
+  - type: textarea
+    id: summary
+    attributes:
+      label: What happened?
+      description: Describe the behavior and why it is a problem.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Reproduction steps
+      description: Include the smallest command sequence and sanitized input that reproduces the problem.
+      placeholder: |
+        1. knowflow init demo
+        2. cd demo
+        3. knowflow ...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs or output
+      description: Paste sanitized terminal output. Do not include API keys, `.env` files, or private source content.
+      render: shell
+  - type: input
+    id: version
+    attributes:
+      label: KnowFlow version
+      description: Run `knowflow --version`.
+      placeholder: 0.2.0
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      description: Include OS, Node.js version, Python version, and shell.
+      placeholder: macOS 15; Node.js 22; Python 3.12; zsh
+    validations:
+      required: true
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checklist
+      options:
+        - label: I searched existing issues for the same problem.
+          required: true
+        - label: I removed secrets and private captured content.
+          required: true
+        - label: I understand that `ingest` captures raw material and does not automatically create structured Wiki pages.
+          required: true

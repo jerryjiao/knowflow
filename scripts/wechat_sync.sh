@@ -6,11 +6,13 @@
 # Config: scripts/.wechat-accounts.json (search queries + accounts)
 set -euo pipefail
 
-WIKI_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-RAW_DIR="$WIKI_ROOT/raw/wechat"
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+WIKI_ROOT="${KNOWFLOW_ROOT:-$(cd "$SCRIPT_DIR/.." && pwd)}"
+RAW_BASE="${KNOWFLOW_RAW_DIR:-$WIKI_ROOT/raw}"
+RAW_DIR="$RAW_BASE/wechat"
 STATE_FILE="$WIKI_ROOT/.wechat-state.json"
 TIMESTAMP=$(date +%Y-%m-%d-%H%M)
-ACCOUNTS_FILE="$(dirname "$0")/.wechat-accounts.json"
+ACCOUNTS_FILE="$SCRIPT_DIR/.wechat-accounts.json"
 
 mkdir -p "$RAW_DIR"
 

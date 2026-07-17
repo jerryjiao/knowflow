@@ -45,7 +45,7 @@ Karpathy 提出的个人知识库构建方法论：让 LLM Agent 将原始素材
 - 后续所有实现（sdyckjq/SamurAIGPT/nashsu 等）都基于此
 
 ## ⭐ 个人备注 / 行动项
-- [x] 已基于此方法论构建 jerry-wiki skill
+- [x] 已基于此方法论构建 KnowFlow 演示 Wiki
 - [ ] 用真实素材测试完整 ingest 流程 ← **当前正在做**
 - [ ] 考虑接入 Understand-Anything (8749⭐) 做知识图谱可视化
 - [ ] 评估 qmd 作为本地搜索引擎

@@ -10,13 +10,15 @@
 
 set -euo pipefail
 
-WIKI_ROOT="$HOME/Documents/openclaw/workspace/knowflow"
-RAW_DIR="$WIKI_ROOT/raw/twitter"
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+WIKI_ROOT="${KNOWFLOW_ROOT:-$(cd "$SCRIPT_DIR/.." && pwd)}"
+RAW_BASE="${KNOWFLOW_RAW_DIR:-$WIKI_ROOT/raw}"
+RAW_DIR="$RAW_BASE/twitter"
 STATE_FILE="$WIKI_ROOT/.bookmark-state.json"
 TIMESTAMP=$(date +%Y-%m-%d-%H%M)
 DRY_RUN="${1:-}"
 
-echo "🔖 Jerry's LLM Wiki — Bookmark Sync"
+echo "🔖 KnowFlow — Bookmark Sync"
 echo "======================================="
 echo "Time: $(date '+%Y-%m-%d %H:%M:%S')"
 echo ""
@@ -135,7 +137,7 @@ fi
 # ── Step 3: Auto Pipeline (ingest new raw → wiki) ──
 echo ""
 echo "🔄 Step 3: Running pipeline for new content..."
-PIPELINE_LOG=$(bash "$WIKI_ROOT/scripts/pipeline.sh" --step=2,3,4,5 2>&1) && echo "$PIPELINE_LOG" || {
+PIPELINE_LOG=$(bash "$SCRIPT_DIR/pipeline.sh" --step=2,3,4,5 2>&1) && echo "$PIPELINE_LOG" || {
   PIPELINE_EXIT=$?
   echo "$PIPELINE_LOG"
   if [ $PIPELINE_EXIT -ne 0 ]; then

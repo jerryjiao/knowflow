@@ -33,7 +33,7 @@ AI 驱动的知识 Wiki 系统。基于 Andrej Karpathy 的 LLM Wiki 方法论�
 
 ## 相关实体
 
-- [[Jerry]] — 创建者
+- Jerry Jiao — 创建者
 - [[智谱 AI]] — LLM 提供商
 - [[Andrej Karpathy]] — 方法论提出者
 

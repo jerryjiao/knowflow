@@ -1,4 +1,4 @@
-# 📚 Jerry's Knowledge Index
+# 📚 KnowFlow Demo Knowledge Index
 
 > 自动维护的 Wiki 索引 | 最后更新: 2026-04-27
 

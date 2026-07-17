@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Jerry's LLM Wiki — Knowledge Graph Builder (M2 Enhanced)
+KnowFlow — Knowledge Graph Builder (M2 Enhanced)
 Parses wiki/ markdown files, extracts [[wikilink]] relationships,
 generates interactive graph.html (self-contained, no server needed).
 
@@ -24,10 +24,11 @@ from pathlib import Path
 from collections import defaultdict
 
 # ── Configuration ──────────────────────────────────────────
-DEFAULT_WIKI_DIR = os.path.expanduser("~/Documents/openclaw/workspace/knowflow/wiki")
-DEFAULT_OUTPUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'graph', 'graph.html')
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+DEFAULT_WIKI_DIR = os.environ.get("KNOWFLOW_WIKI_DIR", str(PROJECT_ROOT / "wiki"))
+DEFAULT_OUTPUT = os.environ.get("KNOWFLOW_GRAPH_OUTPUT", str(PROJECT_ROOT / "graph" / "graph.html"))
 # 增量更新状态文件：记录每个文件的 hash，用于检测变更
-STATE_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'graph', '.graph-state.json')
+STATE_FILE = str(Path(DEFAULT_OUTPUT).resolve().parent / '.graph-state.json')
 
 # Node colors by category
 CATEGORY_COLORS = {
@@ -309,7 +310,7 @@ def generate_html(graph_data: dict, output_path: str):
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🧠 Jerry's Wiki Knowledge Graph</title>
+<title>🧠 KnowFlow Knowledge Graph</title>
 <script src="https://unpkg.com/vis-network@9.1.6/standalone/umd/vis-network.min.js"></script>
 <style>
   * {{ margin: 0; padding: 0; box-sizing: border-box; }}
@@ -402,16 +403,16 @@ def generate_html(graph_data: dict, output_path: str):
 <body>
 
 <header>
-  <h1>🧠 Jerry's Wiki <span>Knowledge Graph</span></h1>
+  <h1>🧠 KnowFlow <span>Knowledge Graph</span></h1>
   <div class="stats">
-    <div class="stat"><span class="stat-dot" style="background:#1565C0"></span>{stats['total_nodes']} 节点</div>
-    <div class="stat"><span class="stat-dot" style="background:#90A4AE"></span>{stats['total_edges']} 链接</div>
-    <div class="stat"><span class="stat-dot" style="background:#4CAF50"></span>{stats['files_processed']} 文件</div>
+    <div class="stat"><span class="stat-dot" style="background:#1565C0"></span>{stats['total_nodes']} nodes</div>
+    <div class="stat"><span class="stat-dot" style="background:#90A4AE"></span>{stats['total_edges']} links</div>
+    <div class="stat"><span class="stat-dot" style="background:#4CAF50"></span>{stats['files_processed']} files</div>
   </div>
 </header>
 
 <div class="search-box">
-  🔍 <input type="text" id="search-input" placeholder="搜索节点..." />
+  🔍 <input type="text" id="search-input" placeholder="Search nodes..." />
 </div>
 
 <div id="info-panel">
@@ -424,18 +425,18 @@ def generate_html(graph_data: dict, output_path: str):
 <div id="graph-container"></div>
 
 <div class="legend">
-  <div class="legend-title">📂 图例</div>
-  <div class="legend-item"><span class="legend-icon" style="background:#E3F2BD;border:2px solid #1565C0"></span> 📥 来源 (Sources)</div>
-  <div class="legend-item"><span class="legend-icon" style="background:#F3E5F5;border:2px solid #7B1FA2"></span> 👤 实体 (Entities)</div>
-  <div class="legend-item"><span class="legend-icon" style="background:#E8F5E9;border:2px solid #2E7D32"></span> 💡 概念 (Concepts)</div>
-  <div class="legend-item"><span class="legend-icon" style="background:#FFF3E0;border:2px solid #EF6C00"></span> ⚖️ 对比 (Comparisons)</div>
-  <div class="legend-item"><span class="legend-icon" style="background:#FFEBEE;border:2px solid #C62828"></span> ⭐ 索引/日志</div>
+  <div class="legend-title">📂 Legend</div>
+  <div class="legend-item"><span class="legend-icon" style="background:#E3F2BD;border:2px solid #1565C0"></span> 📥 Sources</div>
+  <div class="legend-item"><span class="legend-icon" style="background:#F3E5F5;border:2px solid #7B1FA2"></span> 👤 Entities</div>
+  <div class="legend-item"><span class="legend-icon" style="background:#E8F5E9;border:2px solid #2E7D32"></span> 💡 Concepts</div>
+  <div class="legend-item"><span class="legend-icon" style="background:#FFF3E0;border:2px solid #EF6C00"></span> ⚖️ Comparisons</div>
+  <div class="legend-item"><span class="legend-icon" style="background:#FFEBEE;border:2px solid #C62828"></span> ⭐ Index / Log</div>
 </div>
 
 <div class="controls">
-  <button class="ctrl-btn" onclick="fitAll()">🎯 适应全部</button>
-  <button class="ctrl-btn" onclick="togglePhysics()">⚡ 物理模拟</button>
-  <button class="ctrl-btn" onclick="clusterByCategory()">📁 按类别聚类</button>
+  <button class="ctrl-btn" onclick="fitAll()">🎯 Fit all</button>
+  <button class="ctrl-btn" onclick="togglePhysics()">⚡ Physics</button>
+  <button class="ctrl-btn" onclick="clusterByCategory()">📁 Cluster by type</button>
 </div>
 
 <script>
@@ -493,7 +494,7 @@ network.on("deselectNode", function() {{
 function showInfo(node) {{
   const panel = document.getElementById('info-panel');
   document.getElementById('info-title').textContent = node.label || nodeId;
-  document.getElementById('info-meta').textContent = node.category + ' | 连接度: ' + (node.degree || 0);
+  document.getElementById('info-meta').textContent = node.category + ' | Degree: ' + (node.degree || 0);
   document.getElementById('info-summary').innerHTML = (node.title || '').replace(/\\n/g, '<br>');
   panel.classList.add('visible');
 }}
@@ -585,7 +586,7 @@ def print_stats(stats: dict):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Jerry's Wiki Knowledge Graph Builder (M2)")
+    parser = argparse.ArgumentParser(description="KnowFlow Knowledge Graph Builder (M2)")
     parser.add_argument("--wiki-dir", default=DEFAULT_WIKI_DIR, help="Wiki root directory")
     parser.add_argument("--output", default=DEFAULT_OUTPUT, help="Output HTML path")
     parser.add_argument("--incremental", "-i", action="store_true",

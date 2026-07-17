@@ -182,39 +182,19 @@ KnowFlow 使用 `[[Name]]` 语法表示内部链接：
 
 ## 配置文件 (.knowflowrc)
 
-```yaml
-# LLM 配置
-llm:
-  provider: "zhipuai"        # zhipuai | openai
-  model: "glm-4-flash"       # 提取用模型
-  chat_model: "glm-4-flash"  # 对话/查询用模型
-  api_key_env: "ZHIPUAI_API_KEY"  # 环境变量名
-
-# Wiki 配置
-wiki:
-  root: ./wiki               # Wiki 输出目录
-  raw_dir: ./raw             # 原始内容存储
-  templates_dir: ./templates # 模板目录
-
-# 图谱配置
-graph:
-  output: ./graph/graph.html
-  auto_label: true           # 是否用 LLM 自动标注关系类型
-
-# 向量配置
-vector:
-  provider: "local"          # local | openai
-  index_dir: ./vector-store.mjs-data
-  dimensions: 1024
-  similarity_threshold: 0.7
-
-# 同步配置
-sync:
-  bookmarks: true            # 是否同步 X 书签
-  wechat: false              # 是否同步微信（需配置）
-  
-# 发布设置
-publish:
-  skip_image_gen: false      # 是否跳过图片生成
-  skip_publish: true          # 是否跳过微信推送
+```json
+{
+  "wiki": {
+    "root": "./wiki",
+    "rawDir": "./raw"
+  },
+  "graph": {
+    "output": "./graph/graph.html"
+  },
+  "health": {
+    "minFileSize": 100
+  }
+}
 ```
+
+配置必须是有效 JSON，相对路径以 `.knowflowrc` 所在目录为基准。向量索引和查询使用项目根目录 `.env` 中的 `ZHIPUAI_API_KEY`，或同名环境变量。

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Jerry Wiki Vector Store v2.1
+ * KnowFlow Vector Store v2.1
  * 智谱 embedding-3 向量检索引擎
  *
  * 用法:
@@ -19,10 +19,12 @@
  */
 
 import { readFileSync, writeFileSync, readdirSync, existsSync, statSync } from 'fs';
-import { join, relative, extname } from 'path';
+import { dirname, join, relative, extname, resolve } from 'path';
 import { fileURLToPath } from 'url';
 
-const WIKI_DIR = join(fileURLToPath(import.meta.url), '../../wiki');
+const PACKAGE_ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
+const PROJECT_ROOT = resolve(process.env.KNOWFLOW_ROOT || PACKAGE_ROOT);
+const WIKI_DIR = resolve(process.env.KNOWFLOW_WIKI_DIR || join(PROJECT_ROOT, 'wiki'));
 const INDEX_FILE = join(WIKI_DIR, '.vector-index.json');
 const CACHE_FILE = join(WIKI_DIR, '.embed-cache.json');
 const MANIFEST_FILE = join(WIKI_DIR, '.vector-manifest.json'); // 增量用：记录文件 mtime
@@ -49,7 +51,7 @@ const TYPE_WEIGHTS = {
 };
 
 // 加载 .env
-const envPath = join(fileURLToPath(import.meta.url), '../../.env');
+const envPath = join(PROJECT_ROOT, '.env');
 if (existsSync(envPath)) {
   for (const line of readFileSync(envPath, 'utf8').split('\n')) {
     const [k, ...v] = line.split('=');
@@ -658,10 +660,14 @@ if (cmd === 'build') {
     .then(() => { if (wantStats) { if (jsonMode) { const s = showStats(verbose, true); if (s) console.log(JSON.stringify(s, null, 2)); } else { showStats(verbose, false); } } })
     .catch(e => { console.error(e.message); process.exit(1); });
 } else if (cmd === 'query') {
-  const args = process.argv.slice(3).filter(a => a !== '--stats' && a !== '--verbose' && a !== '-v' && a !== '--json');
+  const topIndex = process.argv.indexOf('--top');
+  const top = topIndex >= 0 ? Number.parseInt(process.argv[topIndex + 1], 10) : 10;
+  const args = process.argv.slice(3).filter((a, index, all) =>
+    a !== '--stats' && a !== '--verbose' && a !== '-v' && a !== '--json' &&
+    a !== '--top' && all[index - 1] !== '--top');
   const q = args.join(' ');
   if (!q) { log('用法: query "查询内容"'); process.exit(1); }
-  queryIndex(q)
+  queryIndex(q, Number.isInteger(top) && top > 0 ? top : 10)
     .then(() => { if (wantStats) { if (jsonMode) { const s = showStats(verbose, true); if (s) console.log(JSON.stringify(s, null, 2)); } else { showStats(verbose, false); } } })
     .catch(e => { console.error(e.message); process.exit(1); });
 } else if (cmd === 'search') {
@@ -683,7 +689,7 @@ if (cmd === 'build') {
   else { showStats(verbose, false); }
 } else {
   console.log(`
-Jerry Wiki Vector Store v2.1
+KnowFlow Vector Store v2.1
 用法:
   node vector-store.mjs build                 全量构建索引
   node vector-store.mjs build --incremental   增量构建（只处理新增/修改文件）
