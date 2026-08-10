@@ -264,6 +264,30 @@ program
   });
 
 program
+  .command('fix')
+  .description('自动修复 health check 发现的问题（空链接、缺失文件、过小文件、孤儿页）')
+  .option('--dry-run', '只报告，不修改文件')
+  .action(opts => {
+    const project = loadProject();
+    console.log(chalk.magenta('🔧 自动修复 Wiki 问题...'));
+    try {
+      run('bash', [
+        join(SCRIPTS, 'wiki-auto-fix.sh'),
+        '--wiki-dir', project.wikiDir,
+        ...(['--min-size', String(project.config.health.minFileSize)]),
+        ...(opts.dryRun ? ['--dry-run'] : []),
+      ], {
+        cwd: project.root,
+        env: projectEnv(project),
+      });
+      console.log(chalk.green('✅ 修复完成！'));
+    } catch (error) {
+      console.error(chalk.red('❌ 修复失败:'), error.message);
+      process.exitCode = 1;
+    }
+  });
+
+program
   .command('health')
   .description('Wiki 健康检查（断链、空文件、孤立页面）')
   .action(() => {

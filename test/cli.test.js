@@ -25,7 +25,7 @@ function withTempProject(callback) {
 test('reports the package version', () => {
   const result = run(['--version']);
   assert.equal(result.status, 0, result.stderr);
-  assert.equal(result.stdout.trim(), '0.2.0');
+  assert.equal(result.stdout.trim(), '0.2.1');
 });
 
 test('init creates a usable project without overwriting templates', () => withTempProject(temp => {
@@ -80,4 +80,44 @@ test('graph smoke test writes configured HTML and JSON', () => withTempProject(t
   assert.equal(result.status, 0, result.stderr);
   assert.ok(existsSync(join(project, 'graph', 'graph.html')));
   assert.ok(existsSync(join(project, 'graph', 'graph.json')));
+}));
+
+test('fix creates missing entity pages and pads tiny files', () => withTempProject(temp => {
+  const project = join(temp, 'project');
+  assert.equal(run(['init', project]).status, 0);
+  // A source page that links to a not-yet-existing entity, plus a stub file under min size.
+  writeFileSync(join(project, 'wiki', 'sources', 'seed.md'),
+    '# Seed\n\nSee [[entities/missing-thing]] for context.\n', 'utf8');
+  const stub = join(project, 'wiki', 'entities', 'stub.md');
+  mkdirSync(join(project, 'wiki', 'entities'), { recursive: true });
+  writeFileSync(stub, 'x', 'utf8');
+  const sizeBefore = readFileSync(stub, 'utf8').length;
+
+  const result = run(['fix'], project);
+  assert.equal(result.status, 0, result.stderr);
+  assert.match(result.stdout, /修复完成/);
+  // Fix 2 creates the missing entity page.
+  assert.ok(existsSync(join(project, 'wiki', 'entities', 'missing-thing.md')));
+  // Fix 3 pads the tiny file with a note; it must grow (the appended marker is
+  // what matters, not exceeding any specific threshold).
+  const sizeAfter = readFileSync(stub, 'utf8').length;
+  assert.ok(sizeAfter > sizeBefore, `expected padded size > ${sizeBefore}, got ${sizeAfter}`);
+}));
+
+test('fix --dry-run reports without modifying files', () => withTempProject(temp => {
+  const project = join(temp, 'project');
+  assert.equal(run(['init', project]).status, 0);
+  writeFileSync(join(project, 'wiki', 'sources', 'seed.md'),
+    '# Seed\n\nSee [[entities/missing-thing]] for context.\n', 'utf8');
+  const stub = join(project, 'wiki', 'entities', 'stub.md');
+  mkdirSync(join(project, 'wiki', 'entities'), { recursive: true });
+  writeFileSync(stub, 'x', 'utf8');
+
+  const result = run(['fix', '--dry-run'], project);
+  assert.equal(result.status, 0, result.stderr);
+  assert.match(result.stdout, /DRY RUN/);
+  assert.match(result.stdout, /Auto-Fix Summary/);
+  // Dry run leaves the wiki untouched.
+  assert.equal(existsSync(join(project, 'wiki', 'entities', 'missing-thing.md')), false);
+  assert.equal(readFileSync(stub, 'utf8'), 'x');
 }));

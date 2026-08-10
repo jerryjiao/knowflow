@@ -3,6 +3,23 @@
 All notable changes to KnowFlow are documented here. This project follows
 [Semantic Versioning](https://semver.org/).
 
+## [0.2.1] - 2026-08-10
+
+### Added
+
+- `knowflow fix [--dry-run]` repairs issues the health check surfaces: cleans empty
+  `[[entities/,]]` / `[[concepts/,]]` links, creates missing entity/concept pages,
+  pads files below the minimum size, and auto-links orphan pages to `index.md`.
+  `--dry-run` reports what would change without writing.
+
+### Fixed
+
+- `wiki-auto-fix.sh` (now backing `knowflow fix`) honored `--dry-run` for the
+  empty-link cleanup but still created, padded, and orphan-linked files in
+  dry-run mode because shell redirections ran before the dry-run guard. All
+  three write paths now short-circuit under `--dry-run` and `\n` escapes in the
+  pad suffix render as real newlines.
+
 ## [0.2.0] - 2026-07-17
 
 ### Added
@@ -31,5 +48,6 @@ All notable changes to KnowFlow are documented here. This project follows
 
 - Initial open-source release.
 
+[0.2.1]: https://github.com/jerryjiao/knowflow/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/jerryjiao/knowflow/compare/d0ff6f4...v0.2.0
 [0.1.0]: https://github.com/jerryjiao/knowflow/commit/d0ff6f4
