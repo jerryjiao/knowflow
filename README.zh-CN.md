@@ -69,6 +69,7 @@ KnowFlow 的灵感来自 [Andrej Karpathy 的 LLM Wiki](https://karpathy.github.
 | `knowflow init [directory]` | 创建独立项目，默认使用当前目录 |
 | `knowflow ingest <url-or-text>` | 将 URL 或文本采集到 `raw/` |
 | `knowflow graph [--no-open]` | 根据 Wiki 页面生成 `graph.html` 和 `graph.json` |
+| `knowflow fix [--dry-run]` | 修复空链接、缺失页面、过小文件和孤儿页 |
 | `knowflow health` | 检查断链、小文件和孤立页面 |
 | `knowflow status` | 显示原始素材、Wiki、图谱、向量索引和 API Key 状态 |
 | `knowflow query <text>` | 查询已有向量索引 |

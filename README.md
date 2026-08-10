@@ -60,6 +60,7 @@ KnowFlow is inspired by [Andrej Karpathy's LLM Wiki](https://karpathy.github.io/
 - Organize source, entity, concept, and comparison pages with `[[wikilinks]]`.
 - Generate `graph.html` and `graph.json` without an API key.
 - Check broken links, undersized files, and isolated pages.
+- Repair empty links, create missing pages, pad small files, and link orphans.
 - Query a previously built vector index with optional Zhipu AI embeddings.
 
 ## Commands
@@ -69,6 +70,7 @@ KnowFlow is inspired by [Andrej Karpathy's LLM Wiki](https://karpathy.github.io/
 | `knowflow init [directory]` | Create a standalone project; defaults to the current directory |
 | `knowflow ingest <url-or-text>` | Capture a URL or text in `raw/` |
 | `knowflow graph [--no-open]` | Generate `graph.html` and `graph.json` from Wiki pages |
+| `knowflow fix [--dry-run]` | Repair empty links, missing pages, small files, and orphans |
 | `knowflow health` | Check broken links, small files, and isolated pages |
 | `knowflow status` | Show raw, Wiki, graph, vector-index, and API-key status |
 | `knowflow query <text>` | Query an existing vector index |

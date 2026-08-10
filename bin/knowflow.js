@@ -274,7 +274,7 @@ program
       run('bash', [
         join(SCRIPTS, 'wiki-auto-fix.sh'),
         '--wiki-dir', project.wikiDir,
-        ...(['--min-size', String(project.config.health.minFileSize)]),
+        '--min-size', String(project.config.health.minFileSize),
         ...(opts.dryRun ? ['--dry-run'] : []),
       ], {
         cwd: project.root,
