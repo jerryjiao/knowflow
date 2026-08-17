@@ -73,6 +73,7 @@ function projectEnv(project) {
     KNOWFLOW_WIKI_DIR: project.wikiDir,
     KNOWFLOW_RAW_DIR: project.rawDir,
     KNOWFLOW_GRAPH_OUTPUT: project.graphHtml,
+    KNOWFLOW_HEALTH_EXCLUDE_ORPHAN: (project.config.health.excludeOrphanDirs ?? []).join(':'),
   };
 }
 
@@ -288,6 +289,24 @@ program
   });
 
 program
+  .command('tags')
+  .description('从 [[tag/<name>]] 链接生成 tag 聚合页（tag/<name>.md）')
+  .action(() => {
+    const project = loadProject();
+    console.log(chalk.blue('🏷  构建 tag 聚合页...'));
+    try {
+      run(process.execPath, [join(SCRIPTS, 'tags-builder.mjs')], {
+        cwd: project.root,
+        env: projectEnv(project),
+      });
+      console.log(chalk.green('✅ tag 聚合页已生成'));
+    } catch (error) {
+      console.error(chalk.red('❌ 生成失败:'), error.message);
+      process.exitCode = 1;
+    }
+  });
+
+program
   .command('health')
   .description('Wiki 健康检查（断链、空文件、孤立页面）')
   .action(() => {
@@ -299,7 +318,8 @@ program
         env: projectEnv(project),
       });
     } catch {
-      console.log(chalk.yellow('⚠️  发现一些问题，建议修复'));
+      console.log(chalk.yellow('⚠️  发现一些问题，建议修复（knowflow fix）'));
+      process.exitCode = 1;
     }
   });
 

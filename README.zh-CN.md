@@ -76,6 +76,7 @@ KnowFlow 的灵感来自 [Andrej Karpathy 的 LLM Wiki](https://karpathy.github.
 | `knowflow graph [--no-open]` | 根据 Wiki 页面生成 `graph.html` 和 `graph.json` |
 | `knowflow fix [--dry-run]` | 修复空链接、缺失页面、过小文件和孤儿页 |
 | `knowflow health` | 检查断链、小文件和孤立页面 |
+| `knowflow tags` | 根据 `[[tag/<名称>]]` 链接生成 `tag/<名称>.md` 聚合页 |
 | `knowflow status` | 显示原始素材、Wiki、图谱、向量索引和 API Key 状态 |
 | `knowflow query <text>` | 查询已有向量索引 |
 
@@ -123,10 +124,13 @@ my-wiki/
     "output": "./graph/graph.html"
   },
   "health": {
-    "minFileSize": 100
+    "minFileSize": 100,
+    "excludeOrphanDirs": ["sources/"]
   }
 }
 ```
+
+`health.excludeOrphanDirs` 列出预期不会被引用的目录（每日同步流水页、收件箱等），其中的页面不计入孤立页面。`knowflow tags` 每次都会全量重建 `wiki/tag/` 下的聚合页，新增带标签页面后重跑即可，幂等安全。
 
 图谱生成、健康检查、内容采集和状态查看均不需要 API Key。语义检索需要在项目环境变量或项目根目录 `.env` 中设置 `ZHIPUAI_API_KEY`：
 

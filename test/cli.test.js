@@ -121,3 +121,74 @@ test('fix --dry-run reports without modifying files', () => withTempProject(temp
   assert.equal(existsSync(join(project, 'wiki', 'entities', 'missing-thing.md')), false);
   assert.equal(readFileSync(stub, 'utf8'), 'x');
 }));
+
+test('tags builds hub pages that resolve tag links and de-orphan sources', () => withTempProject(temp => {
+  const project = join(temp, 'project');
+  assert.equal(run(['init', project]).status, 0);
+  writeFileSync(join(project, 'wiki', 'sources', 'note-a.md'),
+    '# Note A\n\nTagged [[tag/AI]] and [[tag/效率]].\n\nSome padding so the file clears the 100-byte empty-file threshold.\n', 'utf8');
+  writeFileSync(join(project, 'wiki', 'sources', 'note-b.md'),
+    '# Note B\n\nTagged [[tag/AI|alias]].\n\nSome padding so the file clears the 100-byte empty-file threshold.\n', 'utf8');
+
+  const before = run(['health'], project);
+  assert.match(before.stdout, /tag\/AI/);
+
+  const result = run(['tags'], project);
+  assert.equal(result.status, 0, result.stderr);
+  assert.match(result.stdout, /2 hub page/);
+  const hub = readFileSync(join(project, 'wiki', 'tag', 'AI.md'), 'utf8');
+  assert.match(hub, /\[\[sources\/note-a\]\]/);
+  assert.match(hub, /\[\[sources\/note-b\]\]/);
+  assert.ok(existsSync(join(project, 'wiki', 'tag', '效率.md')));
+
+  const after = run(['health'], project);
+  assert.equal(after.status, 0, after.stderr);
+  assert.match(after.stdout, /All checks passed/);
+
+  // Stale hubs disappear once the tag is no longer used anywhere.
+  writeFileSync(join(project, 'wiki', 'sources', 'note-b.md'),
+    '# Note B\n\nNo tags anymore.\n\nSome padding so the file clears the 100-byte empty-file threshold.\n', 'utf8');
+  writeFileSync(join(project, 'wiki', 'sources', 'note-a.md'),
+    '# Note A\n\nOnly [[tag/效率]] now.\n\nSome padding so the file clears the 100-byte empty-file threshold.\n', 'utf8');
+  assert.equal(run(['tags'], project).status, 0);
+  assert.equal(existsSync(join(project, 'wiki', 'tag', 'AI.md')), false);
+  assert.ok(existsSync(join(project, 'wiki', 'tag', '效率.md')));
+}));
+
+test('health excludeOrphanDirs skips configured feed directories', () => withTempProject(temp => {
+  const project = join(temp, 'project');
+  assert.equal(run(['init', project]).status, 0);
+  writeFileSync(join(project, '.knowflowrc'), JSON.stringify({
+    wiki: { root: './wiki', rawDir: './raw' },
+    health: { excludeOrphanDirs: ['sources/'] },
+  }), 'utf8');
+  writeFileSync(join(project, 'wiki', 'sources', 'feed-item.md'),
+    '# Feed item\n\nUnreferenced on purpose; a daily-sync page that nobody links back to. Adding more words here so the file clears the 100-byte empty-file threshold in the health check.\n', 'utf8');
+  writeFileSync(join(project, 'wiki', 'concepts', 'lonely.md'),
+    '# Lonely\n\nUnreferenced concept; this one should still be reported as an orphan. Padding to clear the 100-byte empty-file threshold as well.\n', 'utf8');
+
+  const result = run(['health'], project);
+  assert.equal(result.status, 1);
+  assert.doesNotMatch(result.stdout, /sources\/feed-item\.md/);
+  assert.match(result.stdout, /concepts\/lonely\.md/);
+}));
+
+test('health counts every wikilink on index-style single-line lists', () => withTempProject(temp => {
+  const project = join(temp, 'project');
+  assert.equal(run(['init', project]).status, 0);
+  writeFileSync(join(project, 'wiki', 'index.md'), [
+    '# Index',
+    '',
+    '[[concepts/first]] · [[concepts/second]] · [[concepts/third]]',
+    '',
+    'Padding line so this index page clears the 100-byte empty-file threshold.',
+  ].join('\n'), 'utf8');
+  for (const name of ['first', 'second', 'third']) {
+    writeFileSync(join(project, 'wiki', 'concepts', `${name}.md`),
+      `# ${name}\n\nReferenced from the one-line index above; padded generously so the file clears the 100-byte empty-file threshold.\n`, 'utf8');
+  }
+
+  const result = run(['health'], project);
+  assert.equal(result.status, 0, result.stdout + result.stderr);
+  assert.match(result.stdout, /All checks passed/);
+}));

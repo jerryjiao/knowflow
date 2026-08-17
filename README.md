@@ -77,6 +77,7 @@ KnowFlow is inspired by [Andrej Karpathy's LLM Wiki](https://karpathy.github.io/
 | `knowflow graph [--no-open]` | Generate `graph.html` and `graph.json` from Wiki pages |
 | `knowflow fix [--dry-run]` | Repair empty links, missing pages, small files, and orphans |
 | `knowflow health` | Check broken links, small files, and isolated pages |
+| `knowflow tags` | Build `tag/<name>.md` hub pages from `[[tag/<name>]]` links |
 | `knowflow status` | Show raw, Wiki, graph, vector-index, and API-key status |
 | `knowflow query <text>` | Query an existing vector index |
 
@@ -124,10 +125,13 @@ my-wiki/
     "output": "./graph/graph.html"
   },
   "health": {
-    "minFileSize": 100
+    "minFileSize": 100,
+    "excludeOrphanDirs": ["sources/"]
   }
 }
 ```
+
+`health.excludeOrphanDirs` lists directories whose pages are expected to be unreferenced (daily-sync feeds, inboxes) and should not count as isolated pages. `knowflow tags` regenerates every hub page under `wiki/tag/`, so re-running it after new tagged pages arrive is safe and idempotent.
 
 Graph generation, health checks, capture, and status do not require an API key. Semantic search requires `ZHIPUAI_API_KEY` in the project environment or a project-root `.env` file:
 

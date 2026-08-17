@@ -76,18 +76,20 @@ resolve_link() {
 }
 
 # ── Helper: extract [[wikilinks]] (macOS grep compatible) ──
+# grep -o finds every link on a line; a sed s///gp approach would only catch
+# one per line, which silently drops references on index-style pages that put
+# dozens of links on a single line.
 extract_wikilinks() {
-  sed -n 's/\]\[/] [/g; s/.*\[\[\([^]]*\)\].*/\1/gp' "$1" 2>/dev/null \
-    | sed 's/|.*//' \
+  grep -oE '\[\[[^]]+\]\]' "$1" 2>/dev/null \
+    | sed 's/^\[\[//; s/\]\]$//; s/|.*//' \
     | grep -v '^[[:space:]]*$' \
     | awk '!seen[$0]++' || true
 }
 
 # ── Helper: extract [text](path.md) markdown links ──
 extract_mdlinks() {
-  sed -n 's/.*\] *\(([^)]*)\).*/\1/gp' "$1" 2>/dev/null \
-    | sed 's/^(//;s/)$//' \
-    | grep '\.md' \
+  grep -oE '\]\([^)]+\.md\)' "$1" 2>/dev/null \
+    | sed 's/^\](//; s/)$//' \
     | awk '!seen[$0]++' || true
 }
 
@@ -178,6 +180,23 @@ check_empty_files() {
 }
 
 # ── Check 3: Orphan Pages ──────────────────────────────
+# KNOWFLOW_HEALTH_EXCLUDE_ORPHAN (colon-separated relative dirs, e.g. "sources/:logs/")
+# lists directories whose pages are expected to be unreferenced (feed/inbox
+# pages) and should not count as orphans.
+EXCLUDE_ORPHAN="${KNOWFLOW_HEALTH_EXCLUDE_ORPHAN:-}"
+
+is_orphan_excluded() {
+  local rel="$1"
+  [ -z "$EXCLUDE_ORPHAN" ] && return 1
+  local parts part
+  IFS=':' read -ra parts <<< "$EXCLUDE_ORPHAN"
+  for part in "${parts[@]}"; do
+    part="${part%/}"
+    [[ -n "$part" && ( "$rel" == "$part" || "$rel" == "$part"/* ) ]] && return 0
+  done
+  return 1
+}
+
 check_orphan_pages() {
   local found=0
   local json_items=""
@@ -212,6 +231,9 @@ check_orphan_pages() {
   while IFS= read -r -d '' file; do
     local relpath="${file#$WIKI_DIR/}"
     if [ "$relpath" = "index.md" ]; then
+      continue
+    fi
+    if is_orphan_excluded "$relpath"; then
       continue
     fi
     if ! grep -qxF "$relpath" "$ref_file" 2>/dev/null; then
