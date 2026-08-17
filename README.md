@@ -24,17 +24,22 @@ KnowFlow keeps the workflow inspectable: URLs and notes land in `raw/`, you or a
 
 Requires Node.js 18+, Python 3.10+, Bash, and curl.
 
+The package is not yet published to npm, so start from a source checkout ([details below](#install-from-source)):
+
 ```bash
-npx knowflow@latest init my-wiki
+git clone https://github.com/jerryjiao/knowflow.git
+cd knowflow
+npm install && npm link
+knowflow init my-wiki
 cd my-wiki
-npx knowflow ingest "LLM Wikis turn notes into linked knowledge." --source text
-npx knowflow status
-npx knowflow graph --no-open
+knowflow ingest "LLM Wikis turn notes into linked knowledge." --source text
+knowflow status
+knowflow graph --no-open
 ```
 
 This creates a standalone project, captures one note in `raw/`, and builds a graph from the starter Wiki. **`ingest` does not automatically generate structured Wiki pages.** Organize captured material manually or with an AI agent/workflow before rebuilding the graph.
 
-If v0.2.0 is not yet available on npm, [install the current source checkout](#install-from-source).
+Once the package is published, `npx knowflow@latest <command>` will work directly.
 
 ## The workflow
 
