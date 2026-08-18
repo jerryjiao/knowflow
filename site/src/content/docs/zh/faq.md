@@ -9,7 +9,7 @@ description: 大家实际会问的问题，快速答疑。
 
 ## 我需要会写代码吗？
 
-安装和运行命令需要终端，但这些全都可以交给 AI 助手代跑。大多数非技术用户一直活在[助手工作流](/knowflow/zh/agent-guide/)里，从不碰脚本。npm 发布后还会有 `npx knowflow@latest` 一行安装。
+安装和运行命令需要终端，但这些全都可以交给 AI 助手代跑。大多数非技术用户一直活在[助手工作流](/knowflow/zh/agent-guide/)里，从不碰脚本。安装就一行：`npm install -g @jerryjiao/knowflow`。
 
 ## 需要填 API Key 吗？
 
