@@ -20,11 +20,14 @@ export default defineConfig({
       },
       sidebar: [
         { ...withZh('← Website', '← 官网'), link: '/knowflow/' },
+        { ...withZh('Introduction', '简介'), slug: 'intro' },
         { ...withZh('Quickstart', '快速开始'), slug: 'quickstart' },
+        { ...withZh('Use with an AI assistant', '配合 AI 助手使用'), slug: 'agent-guide' },
         { ...withZh('Commands', '命令参考'), slug: 'commands' },
         { ...withZh('Architecture', '系统架构'), slug: 'architecture' },
         { ...withZh('Data model', '数据模型'), slug: 'data-model' },
         { ...withZh('Methodology', '方法论'), slug: 'methodology' },
+        { ...withZh('FAQ', '常见问题'), slug: 'faq' },
         { ...withZh('Contributing', '贡献指南'), slug: 'contributing' },
       ],
       social: [

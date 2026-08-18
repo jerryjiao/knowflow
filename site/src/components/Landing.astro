@@ -1,6 +1,8 @@
 ---
 /**
  * Shared landing page for KnowFlow — one component, two locales.
+ * Audience: general knowledge-management users (Obsidian/Notion crowd).
+ * Voice: outcome-first, plain language, no jargon above the fold.
  * Design rules: light background, one solid blue (#2563eb), flat, no gradients.
  */
 import '../styles/landing.css';
@@ -15,89 +17,126 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL :
 const home = zh ? `${base}zh/` : base;
 const otherHome = zh ? base : `${base}zh/`;
 const otherLangTarget = zh ? 'en' : 'zh';
-const docsUrl = `${base}${lang}/quickstart/`;
+const docsHome = `${base}${lang}/intro/`;
+const quickstartUrl = `${base}${lang}/quickstart/`;
 const githubUrl = 'https://github.com/jerryjiao/knowflow';
 
 const t = zh
   ? {
-      title: 'KnowFlow — 面向 AI Agent 的 Markdown 知识工作区',
+      title: 'KnowFlow — 别再囤链接了，把收藏变成知识',
       description:
-        'KnowFlow 把 URL 和笔记采集为可追溯的 raw 层，由你信任的 AI Agent 整理成互联 Wiki，再生成知识图谱。开源、本地、MIT 协议。',
-      eyebrow: '开源 · MIT · 本地运行',
-      h1: '面向 AI Agent 的 Markdown 知识工作区',
-      sub: 'URL 和笔记先进 raw/，由你或 AI Agent 整理成结构化页面；本地工具生成知识图谱、检查 Wiki 健康度。配置嵌入 API Key 后可启用语义检索。',
-      ctaPrimary: '快速开始',
+        '把你收藏的文章和笔记变成互联的知识页面。AI 助手负责整理，每一页都是你自己的纯 Markdown 文件。开源、本地运行。',
+      eyebrow: '开源 · 本地运行 · 数据归你',
+      h1: '别再囤链接了，把收藏变成知识',
+      sub: 'KnowFlow 把你收藏的文章和笔记变成互联的知识页面——AI 助手负责整理，每一页都是你自己的纯 Markdown 文件。',
+      ctaPrimary: '看看它长什么样',
       ctaSecondary: 'GitHub',
-      terminalNote: '# ingest 只采集，不伪造页面 —— 整理永远由你或你信任的 Agent 完成',
-      wfKicker: '工作流',
-      wfTitle: '三步：采集、整理、探索',
-      wfSub: '每一步都透明、可检查，没有黑盒。',
+      installNote: '一行命令安装（也可以让 AI 助手帮你跑）· npm 包即将上线，当前从源码安装',
+      painQ: '收藏夹里躺着多少篇「改天再读」？',
+      painA: '存了 ≠ 学了。收藏只解决「存」，从不解决「记得」和「连得上」。',
+      demoKicker: '实拍',
+      demoTitle: '你的收藏，长成一张知识地图',
+      demoSub: '每一页是一个 Markdown 文件，页面之间的链接自动织成这张图——放大、拖拽、顺着关系走。',
+      demoCta: '三步跑出你的第一张图 →',
+      whatKicker: 'KnowFlow 是什么',
+      whatTitle: '三个承诺',
+      pillars: [
+        { icon: '📁', title: '每一页都归你', body: '知识库就是文件夹里的纯 Markdown。随时打包带走，永不被产品绑架。' },
+        { icon: '🤝', title: 'AI 助手替你整理', body: 'Claude、Cursor 或任何你信任的 AI：读取你的原始收藏，起草互联页面，你只需审一眼。' },
+        { icon: '🕸️', title: '看见知识与知识的联系', body: '互联的页面自动织成图谱，让你看见没有搜过的关联。' },
+      ],
+      howKicker: '怎么运转',
+      howTitle: '存、理、看',
+      howSub: '三步，全程透明，没有黑盒。',
       steps: [
-        { title: '采集 Capture', body: 'URL 和纯文本以确定性方式存入 raw/，不改动原文，无需 API Key。' },
-        { title: '整理 Organize', body: '你或任意 AI Agent 把 raw 素材编译成互联 Wiki 页面：实体、概念、对比、来源。' },
-        { title: '探索 Explore', body: '生成交互式知识图谱，检查断链和孤儿页，可选语义检索。' },
+        { title: '存', body: '文章、推文、笔记原样保存进 raw/，一个字不改。', code: 'raw/' },
+        { title: '理', body: 'AI 助手按模板起草实体页、概念页、对比页，互相链接，等你审核。', code: 'wiki/' },
+        { title: '看', body: '一键生成图谱、检查断链、按标签聚合。', code: 'graph.html' },
       ],
-      ftKicker: '能力',
-      ftTitle: '知识层归你所有',
-      ftSub: '普通 Markdown、可编辑模板、[[wikilinks]] —— 不被封闭数据库锁定。',
-      features: [
-        { icon: '📄', title: '纯 Markdown 知识层', body: '页面就是文件，模板可编辑，Git 友好，随时迁走。' },
-        { icon: '🤖', title: '适配任意 Agent', body: '采集保持确定性，知识提炼交给你信任的 Agent 或人工工作流。' },
-        { icon: '🕸️', title: '交互式知识图谱', body: 'graph 命令生成 graph.html / graph.json，无需 API Key。' },
-        { icon: '🏥', title: '健康检查与自动修复', body: 'health 发现断链、空文件、孤儿页；fix 一键修复，支持 dry-run。' },
-        { icon: '🏷️', title: 'Tag 聚合页', body: 'tags 命令从 [[tag/名称]] 链接生成 hub 页，幂等可重跑。' },
-        { icon: '🔎', title: '可选语义检索', body: '配置智谱 AI 嵌入后，query 做混合检索（向量 + 关键词）。' },
-      ],
-      bdKicker: '设计边界',
-      bdTitle: 'ingest 绝不伪造页面',
+      techNote: '给技术朋友：全程只有三条命令',
+      boundaryKicker: '放心之处',
+      boundaryTitle: 'AI 只做整理，不做主',
       bdBody: [
-        '采集是确定性的：URL 和笔记原样进入 raw/，不做任何「一键全自动生成知识库」的伪装。',
-        '把 raw 素材整理成结构化 Wiki，是独立的人工或 Agent 步骤 —— 你看得见每一步，也换得掉任何一个 Agent。',
+        'AI 起草每一页，但它动不了你的原始收藏——存下来的东西永远原样。',
+        '每一步都是看得见的 Markdown 改动，不满意随时改回来，换一个 AI 助手也照常运转。',
       ],
-      bdQuote: '灵感来自 Andrej Karpathy 的 LLM Wiki：知识整理成持久互联的页面，才比一堆收藏更有价值。',
-      footerNote: 'npm 包尚未发布，先从源码安装。',
+      bdQuote: '灵感来自 Andrej Karpathy 的 LLM Wiki：整理成互联页面的知识，才比一堆收藏更有价值。',
+      ftKicker: '还有这些',
+      ftTitle: '顺手的细节',
+      features: [
+        { icon: '📁', title: '纯文件，无锁定', body: '全部内容是本地 Markdown，用 Obsidian 直接打开也行。' },
+        { icon: '🤖', title: '任意 AI 助手', body: '只要是能读写文件的 AI 助手都能用，随时换。' },
+        { icon: '🕸️', title: '知识图谱', body: '交互式图谱 + 原始图数据，可导出到任何工具。' },
+        { icon: '🏥', title: '健康检查', body: '断链、空页、孤儿页自动发现，一条命令修复。' },
+        { icon: '🏷️', title: '标签聚合页', body: '给页面打 [[标签]]，自动生成话题索引页。' },
+        { icon: '🔎', title: '语义搜索（可选）', body: '想问「类似 XX 的内容」时才需要，默认不开。' },
+      ],
+      ctaTitle: '从下一篇「改天再读」开始',
+      ctaSub: '三步，跑出你的第一张知识图谱。',
+      ctaBtn: '开始 →',
+      footerNote: 'npm 包即将发布，当前从源码安装。',
       docs: '文档',
+      docsHome: '简介',
       langSwitch: 'English',
+      demoAlt: 'KnowFlow 知识图谱实拍',
     }
   : {
-      title: 'KnowFlow — an agent-native Markdown knowledge workspace',
+      title: 'KnowFlow — Stop saving. Start knowing.',
       description:
-        'KnowFlow captures URLs and notes into a traceable raw layer, lets you or an AI agent organize linked wiki pages, and builds an interactive knowledge graph. Open source, local, MIT.',
-      eyebrow: 'Open source · MIT · runs locally',
-      h1: 'An agent-native Markdown knowledge workspace',
-      sub: 'URLs and notes land in raw/, you or an AI agent turn them into structured pages, and local tools build the knowledge graph and check wiki health. Optional semantic search with an embedding API key.',
-      ctaPrimary: 'Get started',
+        'Turn the articles and notes you save into linked knowledge pages. Your AI assistant does the organizing; every page is plain Markdown you own. Open source, runs locally.',
+      eyebrow: 'Open source · Runs locally · Your data stays yours',
+      h1: 'Stop saving. Start knowing.',
+      sub: 'KnowFlow turns the articles and notes you save into linked knowledge pages — your AI assistant does the organizing, and every page is plain Markdown you own.',
+      ctaPrimary: 'See what it looks like',
       ctaSecondary: 'GitHub',
-      terminalNote: '# ingest captures only — it never fabricates pages. Organization stays with you or an agent you trust.',
-      wfKicker: 'Workflow',
-      wfTitle: 'Three steps: capture, organize, explore',
-      wfSub: 'Every step is inspectable. No black box.',
+      installNote: 'One-line install (or let your AI assistant run it for you) · npm package coming soon — install from source today',
+      painQ: 'How many “read later” links are sitting in your bookmarks right now?',
+      painA: 'Saving isn’t learning. Bookmarks solve storing — never remembering, never connecting.',
+      demoKicker: 'Real screenshot',
+      demoTitle: 'Your saves, grown into a map of what you know',
+      demoSub: 'Every page is a Markdown file; the links between them weave this graph automatically — zoom, drag, follow connections.',
+      demoCta: 'Build your first graph in three steps →',
+      whatKicker: 'What is KnowFlow',
+      whatTitle: 'Three promises',
+      pillars: [
+        { icon: '📁', title: 'Every page is yours', body: 'Your knowledge base is plain Markdown in folders. Pack it up anytime — no lock-in, ever.' },
+        { icon: '🤝', title: 'An AI assistant does the organizing', body: 'Claude, Cursor, or any assistant you trust reads your raw saves, drafts linked pages, and waits for your review.' },
+        { icon: '🕸️', title: 'See how knowledge connects', body: 'Linked pages weave themselves into a graph, surfacing connections you never searched for.' },
+      ],
+      howKicker: 'How it works',
+      howTitle: 'Save, organize, see',
+      howSub: 'Three steps, fully transparent, no black box.',
       steps: [
-        { title: 'Capture', body: 'URLs and plain text land in raw/ deterministically, unmodified, with no API key required.' },
-        { title: 'Organize', body: 'You or any AI agent compile raw material into linked wiki pages: entities, concepts, comparisons, sources.' },
-        { title: 'Explore', body: 'Generate an interactive knowledge graph, catch broken links and orphans, opt into semantic search.' },
+        { title: 'Save', body: 'Articles, tweets, and notes land in raw/ exactly as captured.', code: 'raw/' },
+        { title: 'Organize', body: 'Your AI assistant drafts entity, concept, and comparison pages from templates — you review.', code: 'wiki/' },
+        { title: 'See', body: 'One command builds the graph, checks links, and groups by tag.', code: 'graph.html' },
       ],
-      ftKicker: 'Capabilities',
-      ftTitle: 'Own the knowledge layer',
-      ftSub: 'Plain Markdown, editable templates, and [[wikilinks]] — never locked into a closed database.',
-      features: [
-        { icon: '📄', title: 'Plain Markdown layer', body: 'Pages are files. Templates are editable. Git-friendly, portable by default.' },
-        { icon: '🤖', title: 'Work with any agent', body: 'Capture stays deterministic; synthesis belongs to the agent or workflow you trust.' },
-        { icon: '🕸️', title: 'Interactive graph', body: 'The graph command emits graph.html / graph.json with no API key.' },
-        { icon: '🏥', title: 'Health & auto-fix', body: 'health finds broken links, empty files, and orphans; fix repairs them, with dry-run support.' },
-        { icon: '🏷️', title: 'Tag hubs', body: 'tags builds hub pages from [[tag/name]] links — idempotent, safe to re-run.' },
-        { icon: '🔎', title: 'Optional semantic search', body: 'With a Zhipu AI embedding key, query runs hybrid retrieval (vector + keyword).' },
-      ],
-      bdKicker: 'Design boundary',
-      bdTitle: 'ingest never fabricates pages',
+      techNote: 'For the technically curious: the whole loop is three commands',
+      boundaryKicker: 'Peace of mind',
+      boundaryTitle: 'The AI organizes. It never decides.',
       bdBody: [
-        'Capture is deterministic: URLs and notes enter raw/ as-is, with no "one-command AI writes your knowledge base" theater.',
-        'Turning raw material into structured wiki pages is a separate human or agent step — you can see every change and swap out any agent.',
+        'The assistant drafts every page, but it cannot touch your original saves — what you captured stays exactly as captured.',
+        'Every change is a visible Markdown edit you can revert, and swapping to a different assistant changes nothing.',
       ],
-      bdQuote: 'Inspired by Andrej Karpathy\u2019s LLM Wiki: knowledge curated into durable, connected pages beats a pile of saved links.',
-      footerNote: 'Not yet on npm — install from source.',
+      bdQuote: 'Inspired by Andrej Karpathy’s LLM Wiki: knowledge curated into connected pages beats a pile of saved links.',
+      ftKicker: 'Also included',
+      ftTitle: 'Thoughtful details',
+      features: [
+        { icon: '📁', title: 'Plain files, no lock-in', body: 'Everything is local Markdown — you can open it in Obsidian directly.' },
+        { icon: '🤖', title: 'Any AI assistant', body: 'If it can read and write files, it can run your wiki. Swap anytime.' },
+        { icon: '🕸️', title: 'Knowledge graph', body: 'Interactive viewer plus raw graph data you can export anywhere.' },
+        { icon: '🏥', title: 'Health checks', body: 'Broken links, empty pages, and orphans are caught — one command fixes them.' },
+        { icon: '🏷️', title: 'Tag hubs', body: 'Tag pages with [[tags]] and topic index pages build themselves.' },
+        { icon: '🔎', title: 'Semantic search (optional)', body: 'Only when you want “find things like this” — off by default.' },
+      ],
+      ctaTitle: 'Start with your next “read later”',
+      ctaSub: 'Three steps to your first knowledge graph.',
+      ctaBtn: 'Get started →',
+      footerNote: 'npm package coming soon — install from source today.',
       docs: 'Docs',
+      docsHome: 'Introduction',
       langSwitch: '中文',
+      demoAlt: 'KnowFlow knowledge graph screenshot',
     };
 ---
 
@@ -147,16 +186,16 @@ const t = zh
           <span>Know<span class="flow">Flow</span></span>
         </a>
         <nav class="site-nav">
-          <a href={docsUrl}><span class="nav-docs-label">{t.docs}</span>📖</a>
+          <a href={docsHome}>{t.docs}</a>
           <a class="nav-github" href={githubUrl} rel="noopener">
             <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
               <path
                 d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"
               ></path>
             </svg>
-            <span class="nav-docs-label">GitHub</span>
+            <span class="nav-github-label">GitHub</span>
           </a>
-          <a class="lang-switch" href={otherHome} data-lang={otherLangTarget}>{t.langSwitch}</a>
+          <a class="lang-switch" href={otherHome} data-lang={otherLangTarget} aria-label={t.langSwitch}>{t.langSwitch}</a>
         </nav>
       </div>
     </header>
@@ -168,44 +207,49 @@ const t = zh
           <h1>{t.h1}</h1>
           <p class="hero-sub">{t.sub}</p>
           <div class="hero-ctas">
-            <a class="btn btn-primary" href={docsUrl}>{t.ctaPrimary} →</a>
+            <a class="btn btn-primary" href="#demo">{t.ctaPrimary} ↓</a>
             <a class="btn btn-outline" href={githubUrl} rel="noopener">{t.ctaSecondary} ↗</a>
           </div>
-
-          <div class="terminal">
-            <div class="terminal-bar">
-              <span class="terminal-dot"></span>
-              <span class="terminal-dot"></span>
-              <span class="terminal-dot"></span>
-              <span class="terminal-title">terminal</span>
-            </div>
-            <div class="terminal-body">
-              <div><span class="prompt">$</span><span class="cmd">git clone https://github.com/jerryjiao/knowflow.git</span></div>
-              <div><span class="prompt">$</span><span class="cmd">cd knowflow && npm install && npm link</span></div>
-              <div><span class="prompt">$</span><span class="cmd">knowflow init my-wiki && cd my-wiki</span></div>
-              <div><span class="prompt">$</span><span class="cmd">knowflow ingest <span class="flag">{zh ? '“LLM Wiki 把零散笔记整理成互联知识。”' : '“LLM Wikis turn notes into linked knowledge.”'}</span> --source text</span></div>
-              <div><span class="prompt">$</span><span class="cmd">knowflow status && knowflow graph <span class="flag">--no-open</span></span> <span class="ok">✓ graph/graph.html</span></div>
-              <div class="comment">{t.terminalNote}</div>
-            </div>
+          <div class="hero-install">
+            <code class="hero-install-cmd">npx knowflow@latest init my-wiki</code>
+            <span class="hero-install-note">{t.installNote}</span>
           </div>
         </div>
       </section>
 
-      <section class="section section-alt" id="workflow">
+      <section class="pain-strip">
+        <div class="container">
+          <p class="pain-q">{t.painQ}</p>
+          <p class="pain-a">{t.painA}</p>
+        </div>
+      </section>
+
+      <section class="section" id="demo">
         <div class="container">
           <div class="section-head">
-            <p class="section-kicker">{t.wfKicker}</p>
-            <h2>{t.wfTitle}</h2>
-            <p class="section-sub">{t.wfSub}</p>
+            <p class="section-kicker">{t.demoKicker}</p>
+            <h2>{t.demoTitle}</h2>
+            <p class="section-sub">{t.demoSub}</p>
           </div>
-          <div class="pipeline">
-            {t.steps.map((step, i) => (
-              <div class="pipeline-step">
-                <span class="step-no">{i + 1}</span>
-                <h3>{step.title}</h3>
-                <p>{step.body}</p>
-                <span class="step-code">{['raw/', '[[wikilinks]]', 'graph.html'][i]}</span>
-                {i < 2 && <span class="pipeline-arrow" aria-hidden="true">→</span>}
+          <a class="showcase" href={quickstartUrl}>
+            <img src={`${base}graph-demo.png`} alt={t.demoAlt} width="1440" height="900" loading="lazy" />
+          </a>
+          <p class="showcase-cta"><a href={quickstartUrl}>{t.demoCta}</a></p>
+        </div>
+      </section>
+
+      <section class="section section-alt">
+        <div class="container">
+          <div class="section-head">
+            <p class="section-kicker">{t.whatKicker}</p>
+            <h2>{t.whatTitle}</h2>
+          </div>
+          <div class="pillars">
+            {t.pillars.map((p) => (
+              <div class="pillar">
+                <span class="feature-icon">{p.icon}</span>
+                <h3>{p.title}</h3>
+                <p>{p.body}</p>
               </div>
             ))}
           </div>
@@ -215,9 +259,55 @@ const t = zh
       <section class="section">
         <div class="container">
           <div class="section-head">
+            <p class="section-kicker">{t.howKicker}</p>
+            <h2>{t.howTitle}</h2>
+            <p class="section-sub">{t.howSub}</p>
+          </div>
+          <div class="pipeline">
+            {t.steps.map((step, i) => (
+              <div class="pipeline-step">
+                <span class="step-no">{i + 1}</span>
+                <h3>{step.title}</h3>
+                <p>{step.body}</p>
+                <span class="step-code">{step.code}</span>
+                {i < 2 && <span class="pipeline-arrow" aria-hidden="true">→</span>}
+              </div>
+            ))}
+          </div>
+          <div class="terminal terminal--sm">
+            <div class="terminal-bar">
+              <span class="terminal-dot"></span>
+              <span class="terminal-dot"></span>
+              <span class="terminal-dot"></span>
+              <span class="terminal-title">{t.techNote}</span>
+            </div>
+            <div class="terminal-body">
+              <div><span class="prompt">$</span><span class="cmd">knowflow init my-wiki</span></div>
+              <div><span class="prompt">$</span><span class="cmd">knowflow ingest <span class="flag">{zh ? '“那篇收藏了很久的文章”' : '“that article you saved months ago”'}</span> --source text</span></div>
+              <div><span class="prompt">$</span><span class="cmd">knowflow graph <span class="flag">--no-open</span></span> <span class="ok">✓ graph/graph.html</span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section-alt">
+        <div class="container">
+          <div class="section-head">
+            <p class="section-kicker">{t.boundaryKicker}</p>
+            <h2>{t.boundaryTitle}</h2>
+          </div>
+          <div class="boundary">
+            {t.bdBody.map((line) => <p>{line}</p>)}
+            <p class="boundary-quote">{t.bdQuote}</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container">
+          <div class="section-head">
             <p class="section-kicker">{t.ftKicker}</p>
             <h2>{t.ftTitle}</h2>
-            <p class="section-sub">{t.ftSub}</p>
           </div>
           <div class="features">
             {t.features.map((f) => (
@@ -231,15 +321,13 @@ const t = zh
         </div>
       </section>
 
-      <section class="section section-alt">
+      <section class="cta-band">
         <div class="container">
-          <div class="section-head">
-            <p class="section-kicker">{t.bdKicker}</p>
-            <h2>{t.bdTitle}</h2>
-          </div>
-          <div class="boundary">
-            {t.bdBody.map((line) => <p>{line}</p>)}
-            <p class="boundary-quote">{t.bdQuote}</p>
+          <h2>{t.ctaTitle}</h2>
+          <p>{t.ctaSub}</p>
+          <div class="cta-band-actions">
+            <a class="btn btn-invert" href={quickstartUrl}>{t.ctaBtn}</a>
+            <code class="cta-band-cmd">npx knowflow@latest init my-wiki</code>
           </div>
         </div>
       </section>
@@ -250,7 +338,8 @@ const t = zh
         <span>KnowFlow · MIT © Jerry Jiao · {t.footerNote}</span>
         <span class="footer-links">
           <a href={githubUrl} rel="noopener">GitHub</a>
-          <a href={docsUrl}>{t.docs}</a>
+          <a href={docsHome}>{t.docsHome}</a>
+          <a href={quickstartUrl}>Quickstart</a>
           <a href={otherHome} data-lang={otherLangTarget}>{t.langSwitch}</a>
         </span>
       </div>

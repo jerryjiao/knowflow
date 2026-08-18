@@ -5,6 +5,31 @@ description: All eight KnowFlow commands — options, behavior, and exit codes.
 
 KnowFlow is a single `knowflow` CLI. Commands search upward from the current directory for the nearest `.knowflowrc` to locate the project root, so they also work from inside project subdirectories.
 
+## A real session
+
+```console
+$ knowflow init my-wiki && cd my-wiki
+✅ 已创建 /path/to/my-wiki/.knowflowrc
+✅ KnowFlow 项目已初始化: /path/to/my-wiki
+
+$ knowflow ingest "LLM Wikis turn notes into linked knowledge." --source text
+🔗 开始采集素材...
+✅ 采集完成！                       # → raw/web/<timestamp>-note.md
+
+$ knowflow graph --no-open
+🕸️  构建知识图谱...
+✅ 图谱已生成: /path/to/my-wiki/graph/graph.html
+
+$ knowflow health
+🏥 Wiki 健康检查...
+✗ wiki/concepts/linked-knowledge.md → [[sources/missing]] (not found)
+⚠️  发现一些问题，建议修复（knowflow fix）   # exit code 1
+
+$ knowflow fix --dry-run
+🔧 自动修复 Wiki 问题...
+[dry-run] 会创建缺失页面: wiki/sources/missing.md
+```
+
 | Command | What it does |
 | --- | --- |
 | [`init`](#init) | Create a standalone project |

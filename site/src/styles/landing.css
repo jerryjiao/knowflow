@@ -315,6 +315,166 @@ a:hover { text-decoration: underline; }
   font-size: 14.5px;
 }
 
+/* ── Install pill ──────────────────────────────────── */
+
+.hero-install {
+  margin-top: 26px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-start;
+}
+
+.hero-install-cmd {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 14px;
+  color: #1e3a8a;
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  border-radius: 8px;
+  padding: 8px 14px;
+}
+
+.hero-install-note {
+  font-size: 12.5px;
+  color: #94a3b8;
+}
+
+/* ── Pain strip ─────────────────────────────────────── */
+
+.pain-strip {
+  background: #f8fafc;
+  border-top: 1px solid #e2e8f0;
+  border-bottom: 1px solid #e2e8f0;
+  padding: 40px 0;
+  text-align: center;
+}
+
+.pain-q {
+  margin: 0 0 8px;
+  font-size: clamp(19px, 2.8vw, 26px);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: #0f172a;
+}
+
+.pain-a {
+  margin: 0;
+  color: #64748b;
+  font-size: 15.5px;
+}
+
+/* ── Graph showcase ─────────────────────────────────── */
+
+.showcase {
+  display: block;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #ffffff;
+  transition: border-color 0.15s ease;
+}
+.showcase:hover { border-color: #2563eb; text-decoration: none; }
+
+.showcase img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.showcase-cta {
+  text-align: center;
+  margin: 22px 0 0;
+  font-size: 15.5px;
+  font-weight: 600;
+}
+.showcase-cta a { color: #2563eb; }
+
+/* ── Pillars ────────────────────────────────────────── */
+
+.pillars {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.pillar {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 26px 24px;
+  transition: border-color 0.15s ease, transform 0.15s ease;
+}
+.pillar:hover { border-color: #93c5fd; transform: translateY(-2px); }
+.pillar h3 { margin: 0 0 8px; font-size: 17px; }
+.pillar p { margin: 0; color: #475569; font-size: 14.5px; }
+.pillar .feature-icon { margin-bottom: 14px; }
+
+/* ── Small terminal ─────────────────────────────────── */
+
+.terminal--sm { margin-top: 34px; }
+.terminal--sm .terminal-body { font-size: 12.5px; padding: 14px 16px; }
+
+/* ── Closing CTA band ───────────────────────────────── */
+
+.cta-band {
+  background: #2563eb;
+  color: #ffffff;
+  padding: 64px 0;
+  text-align: center;
+}
+
+.cta-band h2 {
+  margin: 0 0 10px;
+  font-size: clamp(24px, 3.4vw, 32px);
+  letter-spacing: -0.01em;
+}
+
+.cta-band p { margin: 0 0 26px; font-size: 16.5px; color: #dbeafe; }
+
+.cta-band-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+}
+
+.btn-invert {
+  background: #ffffff;
+  color: #1d4ed8;
+}
+.btn-invert:hover { background: #eff6ff; }
+
+.cta-band-cmd {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 13.5px;
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 8px;
+  padding: 9px 14px;
+}
+
+/* ── Polish ─────────────────────────────────────────── */
+
+.feature, .pipeline-step {
+  transition: border-color 0.15s ease, transform 0.15s ease;
+}
+.feature:hover, .pipeline-step:hover { border-color: #93c5fd; transform: translateY(-2px); }
+
+a:focus-visible,
+.btn:focus-visible {
+  outline: 2px solid #2563eb;
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { transition: none !important; }
+}
+
 /* ── Footer ─────────────────────────────────────────── */
 
 .site-footer {
@@ -339,7 +499,7 @@ a:hover { text-decoration: underline; }
 /* ── Responsive ─────────────────────────────────────── */
 
 @media (max-width: 860px) {
-  .pipeline, .features { grid-template-columns: 1fr; }
+  .pipeline, .features, .pillars { grid-template-columns: 1fr; }
   .pipeline-arrow { display: none; }
   .hero { padding: 56px 0 48px; }
   .section { padding: 56px 0; }
@@ -347,5 +507,6 @@ a:hover { text-decoration: underline; }
 
 @media (max-width: 560px) {
   .site-nav { gap: 12px; }
-  .site-nav .nav-docs-label { display: none; }
+  .nav-github-label { display: none; }
+  .cta-band-actions { flex-direction: column; }
 }

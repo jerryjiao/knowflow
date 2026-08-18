@@ -5,6 +5,31 @@ description: KnowFlow 全部 8 个命令 —— 选项、行为与退出码。
 
 KnowFlow 是一个单一的 `knowflow` CLI。命令会从当前目录向上查找最近的 `.knowflowrc` 来定位项目根，因此在项目子目录里也能直接运行。
 
+## 一段真实会话
+
+```console
+$ knowflow init my-wiki && cd my-wiki
+✅ 已创建 /path/to/my-wiki/.knowflowrc
+✅ KnowFlow 项目已初始化: /path/to/my-wiki
+
+$ knowflow ingest "LLM Wiki 把零散笔记整理成互联知识。" --source text
+🔗 开始采集素材...
+✅ 采集完成！                       # → raw/web/<时间戳>-note.md
+
+$ knowflow graph --no-open
+🕸️  构建知识图谱...
+✅ 图谱已生成: /path/to/my-wiki/graph/graph.html
+
+$ knowflow health
+🏥 Wiki 健康检查...
+✗ wiki/concepts/linked-knowledge.md → [[sources/missing]] (not found)
+⚠️  发现一些问题，建议修复（knowflow fix）   # 退出码 1
+
+$ knowflow fix --dry-run
+🔧 自动修复 Wiki 问题...
+[dry-run] 会创建缺失页面: wiki/sources/missing.md
+```
+
 | 命令 | 作用 |
 | --- | --- |
 | [`init`](#init) | 创建独立项目 |
