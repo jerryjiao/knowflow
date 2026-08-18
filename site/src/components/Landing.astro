@@ -169,21 +169,24 @@ const t = zh
       !zh && (
         <script is:inline define:vars={{ otherHome }}>
           (function () {
+            var pref = null;
             try {
-              var pref = localStorage.getItem('kf-lang');
-              if (pref === 'zh') {
-                location.replace(otherHome);
-                return;
-              }
-              if (!pref) {
-                var nav = (navigator.languages && navigator.languages[0]) || navigator.language || 'en';
-                if (String(nav).toLowerCase().indexOf('zh') === 0) {
-                  localStorage.setItem('kf-lang', 'zh');
-                  location.replace(otherHome);
-                }
-              }
+              pref = localStorage.getItem('kf-lang');
             } catch (e) {
-              /* no localStorage / no JS: stay on the English page */
+              /* storage blocked: fall through to browser language */
+            }
+            var wantsZh = pref === 'zh';
+            if (!wantsZh && pref !== 'en') {
+              var nav = (navigator.languages && navigator.languages[0]) || navigator.language || 'en';
+              wantsZh = String(nav).toLowerCase().indexOf('zh') === 0;
+            }
+            if (wantsZh) {
+              try {
+                localStorage.setItem('kf-lang', 'zh');
+              } catch (e) {
+                /* no storage: still redirect this visit */
+              }
+              location.replace(otherHome);
             }
           })();
         </script>
