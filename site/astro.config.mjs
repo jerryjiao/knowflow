@@ -22,6 +22,16 @@ export default defineConfig({
             content: 'VI929AyBENbxgIGo9gJ8NDm7gEURZCn9B76mbILdKcs',
           },
         },
+        {
+          tag: 'script',
+          attrs: { async: true, src: 'https://www.googletagmanager.com/gtag/js?id=G-9LCB5N62SE' },
+        },
+        {
+          tag: 'script',
+          attrs: {},
+          content:
+            "window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-9LCB5N62SE');",
+        },
       ],
       logo: { src: './src/assets/logo.png', alt: 'KnowFlow logo' },
       favicon: '/favicon.png',

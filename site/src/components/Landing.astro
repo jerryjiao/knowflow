@@ -156,6 +156,15 @@ const t = zh
     <meta property="og:image" content="https://jerryjiao.github.io/knowflow/social-preview.png" />
     <meta property="og:url" content={`https://jerryjiao.github.io${home}`} />
     <link rel="icon" type="image/png" href={`${base}favicon.png`} />
+    <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-9LCB5N62SE"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag('js', new Date());
+      gtag('config', 'G-9LCB5N62SE');
+    </script>
     {
       !zh && (
         <script is:inline define:vars={{ otherHome }}>
