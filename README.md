@@ -1,5 +1,7 @@
 # KnowFlow
 
+<p align="left"><img src="docs/assets/logo.png" width="120" alt="KnowFlow logo"></p>
+
 [English](README.md) | [简体中文](README.zh-CN.md) | [Website & docs](https://jerryjiao.github.io/knowflow/)
 
 [![CI](https://github.com/jerryjiao/knowflow/actions/workflows/ci.yml/badge.svg)](https://github.com/jerryjiao/knowflow/actions/workflows/ci.yml)

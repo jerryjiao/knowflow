@@ -12,7 +12,8 @@ export default defineConfig({
     starlight({
       title: 'KnowFlow',
       description: 'Agent-native Markdown knowledge workspace: capture sources, organize linked wikis, explore graphs.',
-      favicon: './src/assets/favicon.svg',
+      logo: { src: './src/assets/logo.png', alt: 'KnowFlow logo' },
+      favicon: './src/assets/favicon.png',
       defaultLocale: 'en',
       locales: {
         en: { label: 'English', lang: 'en' },

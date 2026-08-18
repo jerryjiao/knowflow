@@ -50,17 +50,11 @@ a:hover { text-decoration: underline; }
 }
 .wordmark:hover { text-decoration: none; }
 
-.wordmark-mark {
+.wordmark-logo {
   width: 26px;
   height: 26px;
   border-radius: 7px;
-  background: #2563eb;
-  color: #fff;
-  font-size: 15px;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: block;
 }
 
 .wordmark .flow { color: #2563eb; }
