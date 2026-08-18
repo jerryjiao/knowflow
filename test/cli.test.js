@@ -25,7 +25,7 @@ function withTempProject(callback) {
 test('reports the package version', () => {
   const result = run(['--version']);
   assert.equal(result.status, 0, result.stderr);
-  assert.equal(result.stdout.trim(), '0.2.1');
+  assert.equal(result.stdout.trim(), '0.3.0');
 });
 
 test('init creates a usable project without overwriting templates', () => withTempProject(temp => {

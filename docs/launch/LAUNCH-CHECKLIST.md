@@ -1,6 +1,6 @@
 # KnowFlow launch checklist
 
-Use this checklist for the v0.2.0 release and the first coordinated public launch. Do not drive traffic until the install path and the capture → organize → graph boundary are both obvious from the repository homepage.
+Use this checklist for the v0.3.0 release and the first coordinated public launch. Do not drive traffic until the install path and the capture → organize → graph boundary are both obvious from the repository homepage.
 
 ## Repository profile
 
@@ -40,15 +40,15 @@ Use this checklist for the v0.2.0 release and the first coordinated public launc
 
 ## Release readiness
 
-- [ ] Confirm `package.json` and `package-lock.json` use version `0.2.0`.
+- [ ] Confirm `package.json` and `package-lock.json` use version `0.3.0`.
 - [ ] Run `npm ci`, `npm run check`, `npm test`, and `npm pack --dry-run`.
 - [ ] Install the generated tarball into a clean temporary directory and run `init`, text `ingest`, `status`, `health`, and `graph --no-open`.
 - [ ] Inspect the tarball and confirm it includes both READMEs, examples, templates, contributor guidance, the changelog, and the license.
 - [ ] Confirm no `.env`, API key, personal path, captured private content, test fixture, or build output is packaged.
 - [ ] Review [CHANGELOG.md](../../CHANGELOG.md) and remove any promise that is not implemented.
 - [ ] Commit and push the release changes; wait for all CI matrix jobs to pass.
-- [ ] Publish `knowflow@0.2.0` to npm and verify `npx knowflow@latest --version` in a clean directory.
-- [ ] Create Git tag `v0.2.0` and a GitHub Release using the changelog as the base.
+- [ ] Publish `knowflow@0.3.0` to npm and verify `npx knowflow@latest --version` in a clean directory.
+- [ ] Create Git tag `v0.3.0` and a GitHub Release using the changelog as the base.
 - [ ] Update the README if the final npm command, graph output, or limitation differs from the release candidate.
 
 ## Coordinated launch

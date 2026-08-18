@@ -1,6 +1,6 @@
 {
   "name": "knowflow",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "Agent-native Markdown workspace for raw capture, linked wikis, knowledge graphs, and semantic search",
   "type": "module",
   "bin": {
@@ -11,6 +11,7 @@
     "scripts/",
     "templates/",
     "docs/",
+    "!docs/launch",
     "examples/",
     "README.md",
     "README.zh-CN.md",

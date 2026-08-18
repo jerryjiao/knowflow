@@ -3,6 +3,30 @@
 All notable changes to KnowFlow are documented here. This project follows
 [Semantic Versioning](https://semver.org/).
 
+## [0.3.0] - 2026-08-18
+
+### Added
+
+- `knowflow tags` builds and prunes `tag/<name>.md` hub pages from `[[tag/<name>]]`
+  links, linking back to every tagged page. Re-running is idempotent.
+- `health.excludeOrphanDirs` configuration lists directories whose pages are
+  expected to be unreferenced (daily-sync feeds, inboxes) and should not count
+  as isolated pages.
+
+### Fixed
+
+- Link extraction missed every wikilink after the first one on a line, so
+  index-style pages that put dozens of links on a single line silently dropped
+  most of their references and produced mass false orphan reports.
+- Markdown link extraction captured a leading `(` into the target path.
+- `knowflow health` exited with code 0 even when it found issues, hiding
+  failures from cron and CI wrappers.
+
+### Changed
+
+- Both READMEs make the source checkout the primary install path until the
+  npm package is published, instead of an `npx` command that 404s.
+
 ## [0.2.1] - 2026-08-10
 
 ### Added
