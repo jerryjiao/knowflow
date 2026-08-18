@@ -3,6 +3,14 @@
 All notable changes to KnowFlow are documented here. This project follows
 [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+### Added
+
+- Bilingual documentation website (Astro + Starlight) under `site/`, deployed to
+  GitHub Pages via GitHub Actions. English landing at `/`, Chinese at `/zh/`,
+  docs under `/en/` and `/zh/` with browser-language auto-switch.
+
 ## [0.3.0] - 2026-08-18
 
 ### Added

@@ -8,7 +8,7 @@ Use this checklist for the v0.3.0 release and the first coordinated public launc
 
   > Agent-native Markdown knowledge workspace: capture URLs and notes, organize them into linked wikis with your AI agent, then explore graphs and semantic search.
 
-- [ ] Set the website field to the npm package page after publication: `https://www.npmjs.com/package/knowflow`.
+- [ ] Set the website field to the documentation site: `https://jerryjiao.github.io/knowflow/`.
 - [ ] Add a 1280 × 640 social preview that remains legible at thumbnail size.
 - [ ] Add these focused GitHub topics (keep the strongest topics first):
 

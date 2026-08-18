@@ -1,6 +1,6 @@
 # KnowFlow
 
-[English](README.md) | [简体中文](README.zh-CN.md)
+[English](README.md) | [简体中文](README.zh-CN.md) | [Website & docs](https://jerryjiao.github.io/knowflow/)
 
 [![CI](https://github.com/jerryjiao/knowflow/actions/workflows/ci.yml/badge.svg)](https://github.com/jerryjiao/knowflow/actions/workflows/ci.yml)
 [![Node.js 18+](https://img.shields.io/badge/Node.js-18%2B-339933?logo=node.js&logoColor=white)](https://nodejs.org/)
