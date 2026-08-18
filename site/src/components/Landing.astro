@@ -32,6 +32,7 @@ const t = zh
       ctaPrimary: '看看它长什么样',
       ctaSecondary: 'GitHub',
       installNote: '一行命令安装（也可以让 AI 助手帮你跑）· npm 包即将上线，当前从源码安装',
+      visBody: '一个概念页，链回支持它的来源——每一页都是这样的纯 Markdown。',
       painQ: '收藏夹里躺着多少篇「改天再读」？',
       painA: '存了 ≠ 学了。收藏只解决「存」，从不解决「记得」和「连得上」。',
       demoKicker: '实拍',
@@ -90,6 +91,7 @@ const t = zh
       ctaPrimary: 'See what it looks like',
       ctaSecondary: 'GitHub',
       installNote: 'One-line install (or let your AI assistant run it for you) · npm package coming soon — install from source today',
+      visBody: 'One concept page, linked back to the source that supports it. Every page is plain Markdown, just like this.',
       painQ: 'How many “read later” links are sitting in your bookmarks right now?',
       painA: 'Saving isn’t learning. Bookmarks solve storing — never remembering, never connecting.',
       demoKicker: 'Real screenshot',
@@ -203,16 +205,53 @@ const t = zh
     <main>
       <section class="hero">
         <div class="container">
-          <span class="hero-eyebrow">{t.eyebrow}</span>
-          <h1>{t.h1}</h1>
-          <p class="hero-sub">{t.sub}</p>
-          <div class="hero-ctas">
-            <a class="btn btn-primary" href="#demo">{t.ctaPrimary} ↓</a>
-            <a class="btn btn-outline" href={githubUrl} rel="noopener">{t.ctaSecondary} ↗</a>
-          </div>
-          <div class="hero-install">
-            <code class="hero-install-cmd">npx knowflow@latest init my-wiki</code>
-            <span class="hero-install-note">{t.installNote}</span>
+          <div class="hero-grid">
+            <div class="hero-copy">
+              <span class="hero-eyebrow">{t.eyebrow}</span>
+              <h1>{t.h1}</h1>
+              <p class="hero-sub">{t.sub}</p>
+              <div class="hero-ctas">
+                <a class="btn btn-primary" href="#demo">{t.ctaPrimary} ↓</a>
+                <a class="btn btn-outline" href={githubUrl} rel="noopener">{t.ctaSecondary} ↗</a>
+              </div>
+              <div class="hero-install">
+                <code class="hero-install-cmd">npx knowflow@latest init my-wiki</code>
+                <span class="hero-install-note">{t.installNote}</span>
+              </div>
+            </div>
+            <div class="hero-visual" aria-hidden="true">
+              <div class="window window--back">
+                <div class="window-bar">
+                  <span class="terminal-dot"></span>
+                  <span class="terminal-dot"></span>
+                  <span class="terminal-dot"></span>
+                  <span class="window-title">wiki/sources/capture-example.md</span>
+                </div>
+                <div class="window-body">
+                  <span class="win-ghost" style="width: 62%"></span>
+                  <span class="win-ghost" style="width: 88%"></span>
+                  <span class="win-ghost" style="width: 44%"></span>
+                </div>
+              </div>
+              <div class="window window--front">
+                <div class="window-bar">
+                  <span class="terminal-dot"></span>
+                  <span class="terminal-dot"></span>
+                  <span class="terminal-dot"></span>
+                  <span class="window-title">wiki/concepts/linked-knowledge.md</span>
+                </div>
+                <div class="window-body">
+                  <p class="win-h"># Linked knowledge</p>
+                  <p class="win-p">{t.visBody}</p>
+                  <p class="win-h2">## Connections</p>
+                  <p class="win-links">
+                    <span>[[index]]</span>
+                    <span>[[concepts/knowledge-graph]]</span>
+                    <span>[[sources/capture-example]]</span>
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
