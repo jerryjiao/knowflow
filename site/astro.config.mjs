@@ -13,7 +13,7 @@ export default defineConfig({
       title: 'KnowFlow',
       description: 'Agent-native Markdown knowledge workspace: capture sources, organize linked wikis, explore graphs.',
       logo: { src: './src/assets/logo.png', alt: 'KnowFlow logo' },
-      favicon: './src/assets/favicon.png',
+      favicon: '/favicon.png',
       defaultLocale: 'en',
       locales: {
         en: { label: 'English', lang: 'en' },
