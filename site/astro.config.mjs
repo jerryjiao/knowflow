@@ -12,6 +12,17 @@ export default defineConfig({
     starlight({
       title: 'KnowFlow',
       description: 'Agent-native Markdown knowledge workspace: capture sources, organize linked wikis, explore graphs.',
+      // Account-level GSC token (shared across Jerry's sites) — same one as Landing.astro,
+      // so GSC can verify this URL-prefix property via meta tag.
+      head: [
+        {
+          tag: 'meta',
+          attrs: {
+            name: 'google-site-verification',
+            content: 'VI929AyBENbxgIGo9gJ8NDm7gEURZCn9B76mbILdKcs',
+          },
+        },
+      ],
       logo: { src: './src/assets/logo.png', alt: 'KnowFlow logo' },
       favicon: '/favicon.png',
       defaultLocale: 'en',
