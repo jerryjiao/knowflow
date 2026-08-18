@@ -36,8 +36,7 @@ All notable changes to KnowFlow are documented here. This project follows
 
 ### Changed
 
-- Both READMEs make the source checkout the primary install path until the
-  npm package is published, instead of an `npx` command that 404s.
+- Both READMEs use `npm install -g @jerryjiao/knowflow` as the primary install path, with the source checkout as an alternative.
 
 ## [0.2.1] - 2026-08-10
 
