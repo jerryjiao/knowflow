@@ -9,7 +9,7 @@ No — and that is deliberate. Capture stores what you saved, unchanged. Organiz
 
 ## Do I need to be a programmer?
 
-You need a terminal for installing and running the commands, but you can delegate all of it — including running those commands — to an AI assistant. Most non-technical users live in the [assistant workflow](/knowflow/en/agent-guide/) and never touch a script. A one-line `npx knowflow@latest` install is coming with the npm release.
+You need a terminal for installing and running the commands, but you can delegate all of it — including running those commands — to an AI assistant. Most non-technical users live in the [assistant workflow](/knowflow/en/agent-guide/) and never touch a script. Installation is one line: `npm install -g @jerryjiao/knowflow`.
 
 ## Do I need an API key?
 
@@ -35,9 +35,9 @@ RAG re-reads the raw pile from scratch for every question. KnowFlow compiles sav
 
 Because you should be able to leave. Files stay readable forever, version-control cleanly with Git, and can be processed by any tool — including AI assistants.
 
-## When is it on npm?
+## Is it on npm?
 
-Soon. Until then, [install from source](/knowflow/en/quickstart/) — three commands, or ask your assistant to do it.
+Yes: `npm install -g @jerryjiao/knowflow`. The package is scoped because npm considers the bare name `knowflow` too similar to an existing package (`know-flow`). The CLI command is still just `knowflow`.
 
 ## What does it cost?
 

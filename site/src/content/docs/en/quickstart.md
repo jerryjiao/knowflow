@@ -5,15 +5,12 @@ description: From zero to an interactive knowledge graph in a few commands.
 
 **Requirements:** Node.js 18+, Python 3.10+, Bash, and curl.
 
-The package is not yet published to npm, so this guide starts from a source checkout. Once it is published, `npx knowflow@latest <command>` works directly and you can skip the install step.
+Install from npm. No global install needed for a one-off: `npx @jerryjiao/knowflow@latest <command>`.
 
-## 1. Install from source
+## 1. Install
 
 ```bash
-git clone https://github.com/jerryjiao/knowflow.git
-cd knowflow
-npm install
-npm link
+npm install -g @jerryjiao/knowflow
 ```
 
 ## 2. Create a project and capture a note

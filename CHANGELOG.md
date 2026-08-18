@@ -15,6 +15,10 @@ All notable changes to KnowFlow are documented here. This project follows
 
 ### Added
 
+- First npm release, published as the scoped package `@jerryjiao/knowflow`
+  (npm considers the bare name too similar to the existing `know-flow`
+  package). Install with `npm install -g @jerryjiao/knowflow`; the CLI
+  command is still `knowflow`.
 - `knowflow tags` builds and prunes `tag/<name>.md` hub pages from `[[tag/<name>]]`
   links, linking back to every tagged page. Re-running is idempotent.
 - `health.excludeOrphanDirs` configuration lists directories whose pages are

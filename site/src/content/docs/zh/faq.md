@@ -35,9 +35,9 @@ RAG 每次提问都从头翻一遍原始堆。KnowFlow 把收藏编译成持久�
 
 因为你应该随时走得掉。文件永远可读、可用 Git 干净地做版本控制、任何工具都能处理——包括 AI 助手。
 
-## 什么时候上 npm？
+## 上 npm 了吗？
 
-快了。在那之前[从源码安装](/knowflow/zh/quickstart/)——三条命令，或者让助手代跑。
+上了：`npm install -g @jerryjiao/knowflow`。包名带 `@jerryjiao/` 前缀，是因为 npm 认为裸名 `knowflow` 与既有包 `know-flow` 过于相似；装完之后命令仍然就叫 `knowflow`。
 
 ## 收费吗？
 

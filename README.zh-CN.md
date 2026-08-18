@@ -26,12 +26,10 @@ KnowFlow 让整个流程保持透明、可检查：URL 和笔记先进入 `raw/`
 
 需要 Node.js 18+、Python 3.10+、Bash 和 curl。
 
-npm 包尚未发布，先从源码安装（[详见下文](#从源码安装)）：
+从 npm 安装——想从源码装也行（[见下文](#从源码安装)）：
 
 ```bash
-git clone https://github.com/jerryjiao/knowflow.git
-cd knowflow
-npm install && npm link
+npm install -g @jerryjiao/knowflow
 knowflow init my-wiki
 cd my-wiki
 knowflow ingest "LLM Wiki 把零散笔记整理成互联知识。" --source text
@@ -41,7 +39,7 @@ knowflow graph --no-open
 
 这会创建一个独立项目、在 `raw/` 采集一条笔记，并根据初始 Wiki 生成图谱。**`ingest` 不会自动生成结构化 Wiki 页面。** 请先手动或通过 AI Agent / 自定义工作流整理原始素材，再重新生成图谱。
 
-包发布到 npm 后，`npx knowflow@latest <命令>` 即可直接使用。
+不想全局安装也可以直接跑：`npx @jerryjiao/knowflow@latest <命令>`。
 
 ## 工作流
 

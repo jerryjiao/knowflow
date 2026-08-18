@@ -5,15 +5,12 @@ description: 几条命令，从零跑到交互式知识图谱。
 
 **环境要求：** Node.js 18+、Python 3.10+、Bash 和 curl。
 
-npm 包尚未发布，本指南从源码安装起步。发布后 `npx knowflow@latest <命令>` 可直接使用，安装步骤可以跳过。
+从 npm 安装。不想全局安装也可以一次性直跑：`npx @jerryjiao/knowflow@latest <命令>`。
 
-## 1. 从源码安装
+## 1. 安装
 
 ```bash
-git clone https://github.com/jerryjiao/knowflow.git
-cd knowflow
-npm install
-npm link
+npm install -g @jerryjiao/knowflow
 ```
 
 ## 2. 创建项目并采集一条笔记
